@@ -1,0 +1,65 @@
+{
+  "name": "easymoney",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/arolson101/easymoney",
+  "bugs": "https://github.com/arolson101/easymoney/issues",
+  "author": {
+    "name": "",
+    "email": "",
+    "url": "https://github.com/arolson101"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/arolson101/easymoney.git"
+  },
+  "dependencies": {
+    "Select2": "git://github.com/select2/select2#select2-ng",
+    "bootstrap": "^3.3.2",
+    "filist": "^1.0.0",
+    "i18next-client": "^1.7.7",
+    "jquery": "^2.1.3",
+    "lodash": "^3.2.0",
+    "newforms": "^0.10.1",
+    "newforms-bootstrap": "^1.1.1",
+    "react": "^0.12.2",
+    "react-bootstrap": "^0.13.0",
+    "react-fa": "^3.0.0",
+    "react-router": "^0.11.6",
+    "reflux": "^0.2.3",
+    "safe-access": "^0.1.0",
+    "select2": "^3.5.2-browserify",
+    "sortablejs": "git://github.com/rubaxa/sortable",
+    "typeahead.js": "^0.10.5",
+    "updraft": "^0.4.1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.9.1",
+    "file-loader": "^0.8.1",
+    "font-awesome": "^4.2.0",
+    "imports-loader": "^0.6.3",
+    "jshint": "^2.6.0",
+    "jshint-loader": "^0.8.1",
+    "json-loader": "^0.5.1",
+    "jsx-loader": "^0.12.2",
+    "jsxhint-loader": "^0.2.0",
+    "replace-ext": "0.0.1",
+    "resolve": "^1.0.0",
+    "style-loader": "^0.8.3",
+    "webpack": "^1.5.3",
+    "xml2js": "^0.4.5",
+    "xmlhttprequest": "^1.7.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "bundle": "webpack --colors",
+    "chrome": "open -a Google\\ Chrome http://localhost:8765/webpack-dev-server/ --args --disable-web-security",
+    "serve": "webpack-dev-server --colors --content-base app --port 8765",
+    "watch": "webpack --progress --colors --watch",
+    "ficache": "./ficache-build.js",
+    "ficache-debug": "node-debug ./ficache-build.js"
+  }
+}

@@ -1,0 +1,11 @@
+node_modules/
+old/
+sb-admin-2/
+
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz

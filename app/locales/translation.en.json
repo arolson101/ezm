@@ -1,0 +1,44 @@
+{
+  "RecentTransactions": "Recent Transactions 2",
+  "Budget": "Budget",
+  
+  "sidebar": {
+    "home": "Home",
+    "accounts": "Accounts",
+    "budget": "Budget",
+    "calendar": "Calendar",
+    "addAccountTooltip": "Add account"
+  },
+  
+  "accountDialog": {
+    "addTitle": "Add Account",
+    "editTitle": "Edit Account",
+    "institutionLabel": "Institution",
+    "institutionPlaceholder": "",
+    "institutionHelp": "Select your institution from the list or enter the details below",
+    "nameLabel": "Name",
+    "namePlaceholder": "",
+    "nameHelp": "",
+    "webLabel": "URL",
+    "webPlaceholder": "",
+    "webHelp": "",
+    "addressLabel": "Address",
+    "addressPlaceholder": "",
+    "addressHelp": "",
+    "notesLabel": "Notes",
+    "notesPlaceholder": "",
+    "notesHelp": "Enter notes",
+    "enableOnline": "Download transactions",
+    "fidLabel": "FID",
+    "fidPlaceholder": "",
+    "fidHelp": "",
+    "orgLabel": "ORG",
+    "orgPlaceholder": "",
+    "orgHelp": "",
+    "ofxLabel": "OFX Server",
+    "ofxPlaceholder": "",
+    "ofxHelp": "",
+    "save": "Save",
+    "close": "Close"
+  }
+}
