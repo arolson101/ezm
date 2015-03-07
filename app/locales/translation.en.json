@@ -2,6 +2,12 @@
   "RecentTransactions": "Recent Transactions 2",
   "Budget": "Budget",
   
+  "AccountTypes": {
+    "CHECKING": "Checking",
+    "SAVINGS": "Savings",
+    "CREDITCARD": "Credit Card"
+  },
+  
   "sidebar": {
     "home": "Home",
     "accounts": "Accounts",
@@ -11,8 +17,8 @@
   },
   
   "accountDialog": {
-    "addTitle": "Add Account",
-    "editTitle": "Edit Account",
+    "addTitle": "Add Accounts",
+    "editTitle": "Edit Accounts",
     "institutionLabel": "Institution",
     "institutionPlaceholder": "",
     "institutionHelp": "Select your institution from the list or enter the details below",
@@ -38,7 +44,16 @@
     "ofxLabel": "OFX Server",
     "ofxPlaceholder": "",
     "ofxHelp": "",
+    "getAccountList": "Get account list from server",
+    "toggleVisTooltip": "Show or hide account from sidebar",
+    "addAccount": "Add",
+    "add": {
+      "typePlaceholder": "Type",
+      "idPlaceholder": "Number",
+      "namePlaceholder": "Name"
+    },
+    "validateNotEmpty": "Cannot be empty",
     "save": "Save",
-    "close": "Close"
+    "close": "Cancel"
   }
 }

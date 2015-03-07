@@ -34,7 +34,11 @@
     "typeahead.js": "^0.10.5",
     "updraft": "^0.4.1"
   },
+  "napa": {
+    "x-editable": "https://github.com/vitalets/x-editable"
+  },
   "devDependencies": {
+    "copy-loader": "^0.1.2",
     "css-loader": "^0.9.1",
     "file-loader": "^0.8.1",
     "font-awesome": "^4.2.0",
@@ -44,6 +48,7 @@
     "json-loader": "^0.5.1",
     "jsx-loader": "^0.12.2",
     "jsxhint-loader": "^0.2.0",
+    "napa": "^1.2.0",
     "replace-ext": "0.0.1",
     "resolve": "^1.0.0",
     "style-loader": "^0.8.3",
@@ -55,6 +60,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
+    "install": "napa",
     "bundle": "webpack --colors",
     "chrome": "open -a Google\\ Chrome http://localhost:8765/webpack-dev-server/ --args --disable-web-security",
     "serve": "webpack-dev-server --colors --content-base app --port 8765",

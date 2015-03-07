@@ -19,6 +19,8 @@
     "smarttabs": true,
     "white": true,
     "globals": [
-      "$"
+      "$",
+      "React",
+      "jQuery"
     ]
 }

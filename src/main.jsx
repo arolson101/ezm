@@ -279,11 +279,17 @@ function main() {
 }
 
 
+function reportError(err) {
+  console.log(err);
+}
+
+
 module.exports.main = function() {
   Promise.all([
     t.init(),
     ficache.init(),
     db.open(),
   ])
-  .then(main);
+  .then(main)
+  .catch(reportError);
 };

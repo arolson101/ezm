@@ -21,6 +21,5 @@ function byName() {
 module.exports = {
   init: init,
   get: get,
-  byName: byName,
-  filist: filist,
+  byName: byName
 };

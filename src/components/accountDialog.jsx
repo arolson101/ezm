@@ -2,10 +2,13 @@
 
 var _ = require("lodash");
 var React = require("react/addons");
-var {Button, Input, Modal, Panel} = require("react-bootstrap");
+var {Button, Input, Modal, Row, Col} = require("react-bootstrap");
+var Icon = require("react-fa");
 var access = require('safe-access');
 var t = require("../t");
 var ficache = require("../ficache");
+var Editable = require("./xeditable");
+var {AccountTypes} = require("../models/account");
 
 
 var Keys = [
@@ -22,6 +25,12 @@ var Keys = [
   "url",
 ];
 
+function ValidateNotEmpty(value) {
+  if($.trim(value) === "") {
+    return t("accountDialog.validateNotEmpty");
+  }
+}
+
 var AccountDialog = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
 
@@ -30,7 +39,12 @@ var AccountDialog = React.createClass({
   },
   
   getInitialState: function() {
-    var state = {};
+    var state = {
+      accounts: [],
+      addAccountName: "",
+      addAccountNumber: "",
+      addAccountType: t("accountDialog.add.typePlaceholder"),
+    };
     for(var key in Keys) {
       state[key] = this.props[key];
     }
@@ -48,40 +62,11 @@ var AccountDialog = React.createClass({
       return <option key={fi.id} value={fi.id}>{fi.name}</option>;
     });
     
-    var onlineFields = null;
-    if(this.state.online) {
-      onlineFields = (
-        <div>
-          <Input
-            type="text"
-            label={t("accountDialog.fidLabel")}
-            help={t("accountDialog.fidHelp")}
-            placeholder={t("accountDialog.fidPlaceholder")}
-            defaultValue={this.props.fid}
-            valueLink={this.linkState('fid')}
-          />
-
-          <Input
-            type="text"
-            label={t("accountDialog.orgLabel")}
-            help={t("accountDialog.orgHelp")}
-            placeholder={t("accountDialog.orgPlaceholder")}
-            defaultValue={this.props.org}
-            valueLink={this.linkState('org')}
-          />
-
-          <Input
-            type="text"
-            label={t("accountDialog.ofxLabel")}
-            help={t("accountDialog.ofxHelp")}
-            placeholder={t("accountDialog.ofxPlaceholder")}
-            defaultValue={this.props.url}
-            valueLink={this.linkState('ofx')}
-          />
-        </div>
-      );
-    }
-
+    var inputClasses = {
+      labelClassName: "col-xs-2",
+      wrapperClassName: "col-xs-10",
+    };
+    
     return (
       <Modal {...this.props}
         title={title}
@@ -91,7 +76,7 @@ var AccountDialog = React.createClass({
         data-trigger="focus"
         >
         <div className="modal-body">
-          <form onSubmit={this.onSubmit} >
+          <form onSubmit={this.onSubmit} className="form-horizontal">
           
             <Input
               ref="institution"
@@ -99,10 +84,14 @@ var AccountDialog = React.createClass({
               label={t("accountDialog.institutionLabel")}
               help={t("accountDialog.institutionHelp")}
               defaultValue={this.props.institution}
+              wrapperClassName= "col-xs-10"
+              labelClassName= "col-xs-2"
               >
               <option></option>
               {institutionOptions}
             </Input>
+
+            <hr/>
 
             <Input
               type="text"
@@ -111,6 +100,7 @@ var AccountDialog = React.createClass({
               placeholder={t("accountDialog.namePlaceholder")}
               defaultValue={this.props.name}
               valueLink={this.linkState('name')}
+              {...inputClasses}
             />
 
             <Input
@@ -119,6 +109,7 @@ var AccountDialog = React.createClass({
               placeholder={t("accountDialog.webPlaceholder")}
               defaultValue={this.props.web}
               valueLink={this.linkState('web')}
+              {...inputClasses}
             />
             
             <Input
@@ -128,6 +119,7 @@ var AccountDialog = React.createClass({
               placeholder={t("accountDialog.addressPlaceholder")}
               defaultValue={this.props.address}
               valueLink={this.linkState('address')}
+              {...inputClasses}
             />
             
             <Input
@@ -137,8 +129,10 @@ var AccountDialog = React.createClass({
               placeholder={t("accountDialog.notesPlaceholder")}
               defaultValue={this.props.notes}
               valueLink={this.linkState('notes')}
+              {...inputClasses}
             />
-
+            
+            <hr/>
 
             <Input
               type="checkbox"
@@ -147,10 +141,15 @@ var AccountDialog = React.createClass({
               wrapperClassName="col-xs-12"
             />
             
-            <Panel key="onlineFields">
-              {onlineFields}
-            </Panel>
-                        
+            {this.renderOnlineFields(inputClasses)}
+            
+            <hr/>
+            
+            <Input label="Accounts" {...inputClasses}>
+              {this.renderAccounts()}
+              {this.renderAddAccountForm()}
+            </Input>
+
             <div className="modal-footer">
               <Button onClick={this.props.onRequestHide}>{t("accountDialog.close")}</Button>
               <Button bsStyle="primary" type="submit" disabled={!canSave}>{t("accountDialog.save")}</Button>
@@ -159,6 +158,167 @@ var AccountDialog = React.createClass({
         </div>
       </Modal>
     );
+  },
+  
+  renderOnlineFields: function(inputClasses) {
+    if(this.state.online) {
+      return (
+        <div>
+          <Input
+            type="text"
+            label={t("accountDialog.fidLabel")}
+            help={t("accountDialog.fidHelp")}
+            placeholder={t("accountDialog.fidPlaceholder")}
+            defaultValue={this.props.fid}
+            valueLink={this.linkState('fid')}
+            {...inputClasses}
+          />
+
+          <Input
+            type="text"
+            label={t("accountDialog.orgLabel")}
+            help={t("accountDialog.orgHelp")}
+            placeholder={t("accountDialog.orgPlaceholder")}
+            defaultValue={this.props.org}
+            valueLink={this.linkState('org')}
+            {...inputClasses}
+          />
+
+          <Input
+            type="text"
+            label={t("accountDialog.ofxLabel")}
+            help={t("accountDialog.ofxHelp")}
+            placeholder={t("accountDialog.ofxPlaceholder")}
+            defaultValue={this.props.url}
+            valueLink={this.linkState('ofx')}
+            {...inputClasses}
+          />
+          
+          <Input label=" " {...inputClasses}>
+            <Row>
+              <Col xs={12}>
+                <span className="pull-right">
+                  <Button>{t("accountDialog.getAccountList")}</Button>
+                </span>
+              </Col>
+            </Row>
+          </Input>
+        </div>
+      );
+    }
+  },
+  
+  renderAccounts: function() {
+    var accountTypeOptions = AccountTypes.map(function(type) {
+      return AccountTypes.t(type);
+    });
+    return this.state.accounts.map(function(acct) {
+      var typeDisplay = AccountTypes.t(acct.type);
+      return (
+        <Row key={acct.id}>
+          <Col xs={1}>
+            <Button
+              bsStyle="link"
+              onClick={this.toggleVis.bind(this, acct)}
+              title={t("accountDialog.toggleVisTooltip")}
+            >
+              <Icon name={acct.visible ? "eye" : "eye-slash"}/>
+            </Button>
+          </Col>
+          <Col xs={2}>
+            <Editable
+              type="select"
+              source={accountTypeOptions}
+              value={typeDisplay}
+              title={t("accountDialog.add.typePlaceholder")}
+            >
+              {typeDisplay}
+            </Editable>
+          </Col>
+          <Col xs={3}>
+            <Button
+              bsStyle="link"
+              disabled
+            >
+              {acct.id}
+            </Button>
+          </Col>
+          <Col xs={3}>
+            <Editable
+              type="text"
+              title={t("accountDialog.add.namePlaceholder")}
+              validate={ValidateNotEmpty}
+            >
+              {acct.name}
+            </Editable>
+          </Col>
+          <Col xs={1}>
+            <Button bsStyle="link" onClick="">Remove</Button>
+          </Col>
+        </Row>
+      );
+    }, this);
+  },
+  
+  renderAddAccountForm: function() {
+    var accountTypeOptions = AccountTypes.map(function(type) {
+      return <option key={type} value={type}>{AccountTypes.t(type)}</option>;
+    });
+    var btnEnabled = (this.state.addAccountType !== t("accountDialog.add.typePlaceholder")) &&
+                      (this.state.addAccountId !== "") &&
+                      (this.state.addAccountName !== "");
+    return (
+      <Row>
+        <Col xs={3}>
+          <select
+            className="form-control"
+            valueLink={this.linkState('addAccountType')}
+          >
+            <option selection disabled>{t("accountDialog.add.typePlaceholder")}</option>
+            {accountTypeOptions}
+          </select>
+        </Col>
+        <Col xs={3}>
+          <input
+            type="text"
+            className="form-control"
+            valueLink={this.linkState('addAccountId')}
+            placeholder={t("accountDialog.add.idPlaceholder")}
+          />
+        </Col>
+        <Col xs={3}>
+          <input
+            type="text"
+            className="form-control"
+            valueLink={this.linkState('addAccountName')}
+            placeholder={t("accountDialog.add.namePlaceholder")}
+          />
+        </Col>
+        <Col xs={1}>
+          <Button disabled={!btnEnabled} onClick={this.addAccount}>{t("accountDialog.addAccount")}</Button>
+        </Col>
+      </Row>
+    );
+  },
+  
+  addAccount: function() {
+    this.state.accounts.push({
+      type: this.state.addAccountType,
+      id: this.state.addAccountId,
+      name: this.state.addAccountName,
+      visible: true
+    });
+    
+    this.setState({
+      addAccountType: t("accountDialog.add.typePlaceholder"),
+      addAccountId: "",
+      addAccountName: "",
+    });
+  },
+  
+  toggleVis: function(acct) {
+    acct.visible = !acct.visible;
+    this.forceUpdate();
   },
   
   componentDidMount: function() {

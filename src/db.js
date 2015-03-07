@@ -8,7 +8,7 @@ var store = new Updraft.Store();
 
 
 module.exports = {
-  Account: store.createClass(require("./models/account")),
+  Account: store.createClass(require("./models/account").AccountDef),
   
   open: function() {
     return store.open({name: dbName});

@@ -2,6 +2,7 @@
 
 var webpack = require("webpack");
 var fs = require("fs");
+//var path = require("path");
 
 var production = 0;
 
@@ -13,6 +14,10 @@ module.exports = {
     [
       "bootstrap/dist/css/bootstrap.min.css",
       "select2/dist/css/select2.css",
+      "x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css",
+      
+      "bootstrap",
+      "filist",
       "i18next-client",
       "jquery",
       "lodash",
@@ -25,7 +30,8 @@ module.exports = {
       "safe-access",
       "select2",
       "sortablejs",
-      "updraft"
+      "updraft",
+      "x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js",
     ],
     app: "./main.jsx",
   },
@@ -37,7 +43,8 @@ module.exports = {
   },
   
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    //root: [path.join(__dirname, "bower_components")]
   },
   
   jshint: JSON.parse(fs.readFileSync("./.jshintrc")),
@@ -57,6 +64,11 @@ module.exports = {
   },
 
   plugins: [
+//    // bower
+//    new webpack.ResolverPlugin(
+//      new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
+//    ),
+    
     // production defines
     new webpack.DefinePlugin({
       DEBUG: production ? 0 : 1,
