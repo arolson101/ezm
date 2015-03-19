@@ -1,14 +1,15 @@
 "use strict";
 
 var _ = require("lodash");
+var clone = require("clone");
 var React = require("react/addons");
-var {Button, Input, Modal, Row, Col} = require("react-bootstrap");
+var {Panel, Button, Input, Modal, Row, Col} = require("react-bootstrap");
 var Icon = require("react-fa");
 var access = require('safe-access');
 var t = require("../t");
 var ficache = require("../ficache");
 var Editable = require("./xeditable");
-var {AccountTypes} = require("../models/account");
+var {Account, AccountTypes, AccountTypes_t, Institution} = require("../models/account");
 
 
 var Keys = [
@@ -23,6 +24,9 @@ var Keys = [
   "fid",
   "org",
   "url",
+  
+  "username",
+  "password",
 ];
 
 function ValidateNotEmpty(value) {
@@ -35,22 +39,21 @@ var AccountDialog = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
 
   propTypes: {
-    id: React.PropTypes.string
+    institution: React.PropTypes.instanceOf(Institution),
+    accounts: React.PropTypes.arrayOf(Account),
   },
   
   getInitialState: function() {
+    var src = this.props.institution || new Institution();
     var state = {
-      accounts: [],
+      accounts: clone(this.props.accounts) || [],
       addAccountName: "",
       addAccountNumber: "",
       addAccountType: t("accountDialog.add.typePlaceholder"),
     };
-    for(var key in Keys) {
-      state[key] = this.props[key];
-    }
-    if(!("online" in this.props)) {
-      state.online = true;
-    }
+    _.forEach(Keys, function(key) {
+      state[key] = src[key];
+    });
     return state;
   },
   
@@ -147,6 +150,7 @@ var AccountDialog = React.createClass({
             
             <Input label="Accounts" {...inputClasses}>
               {this.renderAccounts()}
+              {this.state.accounts.length > 0 ? <hr/> : null}
               {this.renderAddAccountForm()}
             </Input>
 
@@ -164,35 +168,59 @@ var AccountDialog = React.createClass({
     if(this.state.online) {
       return (
         <div>
-          <Input
-            type="text"
-            label={t("accountDialog.fidLabel")}
-            help={t("accountDialog.fidHelp")}
-            placeholder={t("accountDialog.fidPlaceholder")}
-            defaultValue={this.props.fid}
-            valueLink={this.linkState('fid')}
-            {...inputClasses}
-          />
+          <Panel header={t("accountDialog.ofxInfo")}>
+            <Input
+              type="text"
+              label={t("accountDialog.fidLabel")}
+              help={t("accountDialog.fidHelp")}
+              placeholder={t("accountDialog.fidPlaceholder")}
+              defaultValue={this.props.fid}
+              valueLink={this.linkState('fid')}
+              {...inputClasses}
+            />
 
-          <Input
-            type="text"
-            label={t("accountDialog.orgLabel")}
-            help={t("accountDialog.orgHelp")}
-            placeholder={t("accountDialog.orgPlaceholder")}
-            defaultValue={this.props.org}
-            valueLink={this.linkState('org')}
-            {...inputClasses}
-          />
+            <Input
+              type="text"
+              label={t("accountDialog.orgLabel")}
+              help={t("accountDialog.orgHelp")}
+              placeholder={t("accountDialog.orgPlaceholder")}
+              defaultValue={this.props.org}
+              valueLink={this.linkState('org')}
+              {...inputClasses}
+            />
 
-          <Input
-            type="text"
-            label={t("accountDialog.ofxLabel")}
-            help={t("accountDialog.ofxHelp")}
-            placeholder={t("accountDialog.ofxPlaceholder")}
-            defaultValue={this.props.url}
-            valueLink={this.linkState('ofx')}
-            {...inputClasses}
-          />
+            <Input
+              type="text"
+              label={t("accountDialog.ofxLabel")}
+              help={t("accountDialog.ofxHelp")}
+              placeholder={t("accountDialog.ofxPlaceholder")}
+              defaultValue={this.props.url}
+              valueLink={this.linkState('ofx')}
+              {...inputClasses}
+            />
+          </Panel>
+          
+          <Panel header={t("accountDialog.userpassInfo")}>
+            <Input
+              type="text"
+              label={t("accountDialog.usernameLabel")}
+              help={t("accountDialog.usernameHelp")}
+              placeholder={t("accountDialog.usernamePlaceholder")}
+              defaultValue={this.props.username}
+              valueLink={this.linkState('username')}
+              {...inputClasses}
+            />
+
+            <Input
+              type="text"
+              label={t("accountDialog.passwordLabel")}
+              help={t("accountDialog.passwordHelp")}
+              placeholder={t("accountDialog.passwordPlaceholder")}
+              defaultValue={this.props.password}
+              valueLink={this.linkState('password')}
+              {...inputClasses}
+            />
+          </Panel>
           
           <Input label=" " {...inputClasses}>
             <Row>
@@ -209,11 +237,11 @@ var AccountDialog = React.createClass({
   },
   
   renderAccounts: function() {
-    var accountTypeOptions = AccountTypes.map(function(type) {
-      return AccountTypes.t(type);
+    var accountTypeOptions = AccountTypes.enums.map(function(type) {
+      return AccountTypes_t(type);
     });
     return this.state.accounts.map(function(acct) {
-      var typeDisplay = AccountTypes.t(acct.type);
+      var typeDisplay = AccountTypes_t(acct.type);
       return (
         <Row key={acct.id}>
           <Col xs={1}>
@@ -261,8 +289,8 @@ var AccountDialog = React.createClass({
   },
   
   renderAddAccountForm: function() {
-    var accountTypeOptions = AccountTypes.map(function(type) {
-      return <option key={type} value={type}>{AccountTypes.t(type)}</option>;
+    var accountTypeOptions = AccountTypes.enums.map(function(type) {
+      return <option key={type} value={type}>{AccountTypes_t(type)}</option>;
     });
     var btnEnabled = (this.state.addAccountType !== t("accountDialog.add.typePlaceholder")) &&
                       (this.state.addAccountId !== "") &&

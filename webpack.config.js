@@ -17,6 +17,8 @@ module.exports = {
       "x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css",
       
       "bootstrap",
+      "clone",
+      "enum",
       "filist",
       "i18next-client",
       "jquery",
@@ -51,7 +53,7 @@ module.exports = {
   
   module: {
     preLoaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'jsxhint-loader?harmony' }
+      { test: /\.jsx?$/, exclude: /node_modules|updraft/, loader: 'jsxhint-loader?harmony' }
     ],
 
     loaders: [

@@ -1,32 +1,63 @@
 "use strict";
 
+var Enum = require("enum");
 var t = require("../t");
+var {Store, id, bool, enum_, text, ptr} = require("../db");
 
 
-var AccountTypes = [
+var AccountTypes = new Enum([
   "CHECKING",
   "SAVINGS",
   "CREDITCARD",
-];
+]);
 
 
-AccountTypes.t = function(type) {
-  return t("AccountTypes." + type);
-};
+function AccountTypes_t(val) {
+  return t("AccountTypes." + val.toString());
+}
 
 
-var AccountDef = {
+var Institution = Store.createClass({
+  tableName: "institutions",
+  columns: {
+    id: id(),
+    name: text(),
+    web: text(),
+    address: text(),
+    notes: text(),
+
+    online: bool(),
+
+    fid: text(),
+    org: text(),
+    ofx: text(),
+    
+    username: text(),
+    password: text(),
+  },
+  
+  constructor: function() {
+    this.online = true;
+  }
+});
+
+
+var Account = Store.createClass({
   tableName: "accounts",
   columns: {
-    id: { type: "int", key: "true" },
-    name: { type: "text" },
-    url: { type: "text" },
-    notes: { type: "text" },
+    id: id(),
+    institution: ptr(Institution),
+    name: text(),
+    type: enum_(AccountTypes),
+    number: text(),
   }
-};
+});
+
 
 
 module.exports = {
   AccountTypes,
-  AccountDef,
+  AccountTypes_t,
+  Institution,
+  Account,
 };
