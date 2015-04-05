@@ -4,9 +4,8 @@
 
 require("./ezm.css");
 
-var React = require("react/addons");
 //var nav = require("./navigation");
-var {Input, ListGroup, ListGroupItem, OverlayTrigger, Popover, Table, Grid, Col} = require("react-bootstrap");
+var {Input, ListGroup, ListGroupItem, OverlayTrigger, Popover, Table, Grid, Col} = ReactBootstrap;
 var t = require("./t");
 var ficache = require("./ficache");
 var Sidebar = require("./components/sidebar");
@@ -150,7 +149,6 @@ var AccountList = React.createClass({
 });
 
 var AccountStore = require("./accountStore");
-var Reflux = require("reflux");
 
 var Sortable = require("sortablejs");
 

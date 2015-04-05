@@ -85,9 +85,13 @@ module.exports = {
 
     // globals
     new webpack.ProvidePlugin({
+      _: "lodash",
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery",
+      "React": "react/addons",
+      "ReactBootstrap": "react-bootstrap",
+      "Reflux": "reflux",
     }),
   ],
   

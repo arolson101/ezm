@@ -2,15 +2,25 @@
 
 var Updraft = require("updraft");
 
-
 var dbName = "EasyMoney";
 var Store = new Updraft.Store();
+//    Store.logSql = true;
+var openCallbacks = [];
 
+function onOpen(callback) {
+  openCallbacks.push(callback);
+}
 
 function open() {
   require("./models/account");
   
-  return Store.open({name: dbName});
+  return Store.open({name: dbName})
+  .then(function() {
+    return Promise.all(
+      _.map(openCallbacks, function(callback) { return callback(); })
+    );
+  })
+  ;
 }
 
 
@@ -43,4 +53,5 @@ module.exports = {
   ptr,
   Store,
   open,
+  onOpen,
 };

@@ -1,16 +1,14 @@
 "use strict";
 
-var _ = require("lodash");
 var clone = require("clone");
-var React = require("react/addons");
-var {Panel, Button, Input, Modal, Row, Col} = require("react-bootstrap");
+var {Panel, Button, Input, Modal, Row, Col} = ReactBootstrap;
 var Icon = require("react-fa");
 var access = require('safe-access');
 var t = require("../t");
 var ficache = require("../ficache");
 var Editable = require("./xeditable");
 var {Account, AccountTypes, AccountTypes_t, Institution} = require("../models/account");
-
+var AccountStore = require("../accountStore");
 
 var Keys = [
   "name",
@@ -23,7 +21,7 @@ var Keys = [
   
   "fid",
   "org",
-  "url",
+  "ofx",
   
   "username",
   "password",
@@ -52,7 +50,7 @@ var AccountDialog = React.createClass({
       addAccountType: t("accountDialog.add.typePlaceholder"),
     };
     _.forEach(Keys, function(key) {
-      state[key] = src[key];
+      state[key] = (typeof(src[key]) === "undefined" ? "" : src[key]);
     });
     return state;
   },
@@ -293,7 +291,7 @@ var AccountDialog = React.createClass({
       return <option key={type} value={type}>{AccountTypes_t(type)}</option>;
     });
     var btnEnabled = (this.state.addAccountType !== t("accountDialog.add.typePlaceholder")) &&
-                      (this.state.addAccountId !== "") &&
+                      (this.state.addAccountNumber !== "") &&
                       (this.state.addAccountName !== "");
     return (
       <Row>
@@ -310,7 +308,7 @@ var AccountDialog = React.createClass({
           <input
             type="text"
             className="form-control"
-            valueLink={this.linkState('addAccountId')}
+            valueLink={this.linkState('addAccountNumber')}
             placeholder={t("accountDialog.add.idPlaceholder")}
           />
         </Col>
@@ -332,14 +330,14 @@ var AccountDialog = React.createClass({
   addAccount: function() {
     this.state.accounts.push({
       type: this.state.addAccountType,
-      id: this.state.addAccountId,
+      number: this.state.addAccountNumber,
       name: this.state.addAccountName,
       visible: true
     });
     
     this.setState({
       addAccountType: t("accountDialog.add.typePlaceholder"),
-      addAccountId: "",
+      addAccountNumber: "",
       addAccountName: "",
     });
   },
@@ -403,17 +401,16 @@ var AccountDialog = React.createClass({
   },
   
   onSubmit: function() {
-    var data = {};
+    var institution = new Institution();
     Keys.forEach(function(key) {
-      data[key] = this.state[key];
+      institution[key] = this.state[key];
     }, this);
-    if (this.props.id) {
-      this.props.onSave(data);
-      //this.props.onRequestHide();
-    } else {
-      this.props.onSave(data);
-      //e.preventDefault();
-    }
+    
+    var accounts = _.map(this.state.accounts, function(account) {
+      return new Account(account);
+    });
+    
+    AccountStore.save(institution, accounts);
   },
 });
 

@@ -18,9 +18,12 @@
     "trailing": true,
     "smarttabs": true,
     "white": true,
-    "globals": [
-      "$",
-      "React",
-      "jQuery"
-    ]
+    "globals": {
+      "_": false,
+      "$": false,
+      "jQuery": false,
+      "React": false,
+      "ReactBootstrap": false,
+      "Reflux": false
+    }
 }

@@ -1,6 +1,7 @@
 "use strict";
 
-var Reflux = require("reflux");
+var Db = require("./db");
+var {Account, Institution} = require("./models/account");
 
 var actions = Reflux.createActions([
   "addInstitution",
@@ -9,19 +10,53 @@ var actions = Reflux.createActions([
 
 
 var idServer = 1;
-var items = [{id: idServer++, name:'abc'}, {id: idServer++, name: 'def'}];
+var institutions = [];
+//var accounts = [{id: idServer++, name:'abc'}, {id: idServer++, name: 'def'}];
+var accounts = [];
 
-module.exports = Reflux.createStore({
+var AccountStore = Reflux.createStore({
   listenables: actions,
   
   actions: actions,
+  
+  onDbOpen: function() {
+    return Promise.all([
+      Institution.all.get().then(function(results) {
+        institutions = results;
+        var ids = _.pluck(results, "id");
+        ids.push(0);
+        idServer = _.max(ids) + 1;
+      }),
+      Account.all.get().then(function(results) {
+        accounts = results;
+      }),
+    ]);
+  },
+  
+  save: function(institution, accounts) {
+    // TODO: remove accounts somehow
+    if(!institution.id) {
+      institution.id = idServer++;
+    }
+    
+    _.forEach(accounts, function(account) {
+      account.institution = institution;
+      if(!account.id) {
+        account.id = idServer++;
+      }
+    });
+    
+    var toSave = _.flatten([institution, accounts]);
+    return Db.Store.save(toSave);
+  },
   
   onAddInstitution: function(newInstitution) {
     console.assert(!newInstitution.id);
     newInstitution.id = idServer++;
     console.log("onAddInstitution", newInstitution);
-    items.push(newInstitution);
-    this.trigger(items);
+    Db.Store.save(newInstitution);
+    accounts.push(newInstitution);
+    this.trigger(accounts);
   },
   
   onAddAccount: function(newAccount) {
@@ -30,6 +65,12 @@ module.exports = Reflux.createStore({
   
   getDefaultData: function() {
     console.log("getDefaultData");
-    return items;
+    return accounts;
   }
 });
+
+
+Db.onOpen(AccountStore.onDbOpen);
+
+
+module.exports = AccountStore;

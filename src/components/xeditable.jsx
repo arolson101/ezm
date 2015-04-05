@@ -1,7 +1,5 @@
 "use strict";
 
-var React = require("react");
-
 
 var Editable = React.createClass({
   render: function() {

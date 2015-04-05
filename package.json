@@ -32,7 +32,7 @@
     "safe-access": "^0.1.0",
     "sortablejs": "git://github.com/rubaxa/sortable",
     "typeahead.js": "^0.10.5",
-    "updraft": "^0.4.1"
+    "updraft": "^0.4.4"
   },
   "napa": {
     "Select2": "git://github.com/select2/select2#select2-ng",

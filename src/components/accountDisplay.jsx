@@ -1,7 +1,6 @@
 "use strict";
 
-var React = require("react");
-var {ListGroupItem} = require("react-bootstrap");
+var {ListGroupItem} = ReactBootstrap;
 
 //var DragHandle = require("./dragHandle");
 

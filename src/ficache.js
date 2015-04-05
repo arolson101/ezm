@@ -1,6 +1,5 @@
 "use strict";
 
-var _ = require("lodash");
 var filist = require("filist");
 
 function init() {

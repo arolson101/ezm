@@ -1,10 +1,7 @@
 "use strict";
 
-var $ = require("jquery");
-var React = require("react/addons");
-var {Button, ListGroupItem, ModalTrigger} = require("react-bootstrap");
+var {Button, ListGroupItem, ModalTrigger} = ReactBootstrap;
 var Icon = require("react-fa");
-var Reflux = require("reflux");
 
 var t = require("../t");
 var AccountStore = require("../accountStore");
@@ -63,16 +60,12 @@ module.exports = React.createClass({
           <ListGroupItem {... selectionProps("calendar")}><Icon name="calendar"/> {t("sidebar.calendar")}</ListGroupItem>
         </ListGroupItem>
         <span className="pull-right" style={{marginTop: 5}}>
-          <ModalTrigger modal={<AccountDialog onSave={this.onSaveNew}/>}>
+          <ModalTrigger modal={<AccountDialog/>}>
             <Button><Icon name="plus"/></Button>
           </ModalTrigger>
         </span>
       </div>
     );
-  },
-  
-  onSaveNew: function(props) {
-    AccountStore.actions.addInstitution(props);
   },
   
   onSetActive: function(eventKey) {
