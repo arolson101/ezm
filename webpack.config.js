@@ -31,6 +31,7 @@ module.exports = {
       "reflux",
       "safe-access",
       "select2",
+      "string-hash",
       "sortablejs",
       "updraft",
       "x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js",

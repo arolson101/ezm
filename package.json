@@ -31,8 +31,9 @@
     "reflux": "^0.2.3",
     "safe-access": "^0.1.0",
     "sortablejs": "git://github.com/rubaxa/sortable",
+    "string-hash": "^1.1.0",
     "typeahead.js": "^0.10.5",
-    "updraft": "^0.4.4"
+    "updraft": "^0.4.5"
   },
   "napa": {
     "Select2": "git://github.com/select2/select2#select2-ng",

@@ -241,7 +241,7 @@ var AccountDialog = React.createClass({
     return this.state.accounts.map(function(acct) {
       var typeDisplay = AccountTypes_t(acct.type);
       return (
-        <Row key={acct.id}>
+        <Row key={acct.number}>
           <Col xs={1}>
             <Button
               bsStyle="link"
@@ -266,7 +266,7 @@ var AccountDialog = React.createClass({
               bsStyle="link"
               disabled
             >
-              {acct.id}
+              {acct.number}
             </Button>
           </Col>
           <Col xs={3}>
@@ -329,7 +329,7 @@ var AccountDialog = React.createClass({
   
   addAccount: function() {
     this.state.accounts.push({
-      type: this.state.addAccountType,
+      type: AccountTypes.get(this.state.addAccountType * 1).key,
       number: this.state.addAccountNumber,
       name: this.state.addAccountName,
       visible: true

@@ -35,18 +35,14 @@ var AccountStore = Reflux.createStore({
   
   save: function(institution, accounts) {
     // TODO: remove accounts somehow
-    if(!institution.id) {
-      institution.id = idServer++;
-    }
+    institution.assignId();
     
     _.forEach(accounts, function(account) {
       account.institution = institution;
-      if(!account.id) {
-        account.id = idServer++;
-      }
+      account.assignId();
     });
     
-    var toSave = _.flatten([institution, accounts]);
+    var toSave = [institution].concat(accounts);
     return Db.Store.save(toSave);
   },
   
