@@ -1,0 +1,35 @@
+/// <reference path="../project.d.ts"/>
+
+import {ListGroupItem} from "../factories";
+import {Account} from "../models/account";
+import React = require("react");
+
+//var DragHandle = require("./dragHandle");
+
+interface Props extends ListGroupItemAttributes {
+  account: Account;
+  //isEditing: boolean;
+}
+
+
+export class AccountDisplayClass extends React.Component<Props, {}> {
+  render() {
+    //var onClick = this.onClick;
+    
+/*
+    if(this.props.isEditing) {
+      style.cursor = "-webkit-grab";
+      onClick = null;
+    }
+*/
+
+    return (
+      ListGroupItem(_.merge({bsSize: "small"}, this.props),
+        this.props.account.name
+      )
+    );
+  }
+}
+
+
+export var AccountDisplay = React.createFactory(AccountDisplayClass);
