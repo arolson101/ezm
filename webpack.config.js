@@ -23,7 +23,7 @@ module.exports = {
       "i18next-client",
       "jquery",
       "lodash",
-      "newforms-bootstrap",
+      //"newforms-bootstrap",
       "react",
       "react/addons",
       "react-bootstrap",
@@ -36,7 +36,7 @@ module.exports = {
       "updraft",
       "x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js",
     ],
-    app: "./main.jsx",
+    app: "./main.ts",
   },
 
   output: {
@@ -46,7 +46,7 @@ module.exports = {
   },
   
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx', '.ts'],
     //root: [path.join(__dirname, "bower_components")]
   },
   
@@ -58,7 +58,8 @@ module.exports = {
     ],
 
     loaders: [
-      { test: /\.json?$/, loader: 'json-loader' },
+      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.ts$/, loader: 'ts-loader!ts-jsx-loader' },
       { test: /\.jsx?$/, loader: 'jsx-loader?harmony' },
       { test: /\.css$/, loader: "style-loader!css-loader" },
       { test: /\.(svg|woff|woff2|ttf|eot)($|\?)/, loader: "file?name=fonts/[name].[ext]" },
@@ -93,6 +94,7 @@ module.exports = {
       "React": "react/addons",
       "ReactBootstrap": "react-bootstrap",
       "Reflux": "reflux",
+      "Updraft": "updraft",
     }),
   ],
   

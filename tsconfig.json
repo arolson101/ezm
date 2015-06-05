@@ -1,0 +1,39 @@
+{
+    "version": "1.5.0-alpha",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "outDir": "./temp"
+    },
+    "awesomeTypescriptLoaderOptions": {
+        "emitRequireType": false,
+        "outDir": null
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./src/accountStore.ts",
+        "./src/components/xeditable.ts",
+        "./src/db.ts",
+        "./src/ficache.ts",
+        "./src/main.ts",
+        "./src/models/account.ts",
+        "./src/project.d.ts",
+        "./src/t.ts",
+        "./typings/es6-promise/es6-promise.d.ts",
+        "./typings/i18next/i18next.d.ts",
+        "./typings/jquery/jquery.d.ts",
+        "./typings/lodash/lodash.d.ts",
+        "./typings/react-bootstrap/react-bootstrap.d.ts",
+        "./typings/react/react.d.ts",
+        "./typings/tsd.d.ts"
+    ]
+}
