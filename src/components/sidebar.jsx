@@ -12,14 +12,14 @@ var AccountDialog = require("./accountDialog");
 
 module.exports = React.createClass({
   mixins: [
-    Reflux.connect(AccountStore, "list"),
+    Reflux.connect(AccountStore, "accounts"),
     SortableMixin("root", $.extend({}, SortableMixin.DefaultProps)),
   ],
-  
+
   getInitialState: function() {
     return {
       active: "home",
-      accounts: AccountStore.getDefaultData(),
+      accounts: AccountStore.getData(),
     };
   },
 
@@ -35,7 +35,7 @@ module.exports = React.createClass({
         style: {cursor: (active ? "default" : "pointer")},
       };
     }.bind(this);
-  
+
     var accounts = this.state.accounts.map(function(account) {
       return (
         <AccountDisplay
@@ -44,13 +44,13 @@ module.exports = React.createClass({
         />
       );
     }, this);
-    
+
 /*
     var addButtonTooltip = (
       <Tooltip>{t("sidebar.addAccountTooltip")}</Tooltip>
     );
 */
-    
+
     return (
       <div>
         <ListGroupItem ref="root">
@@ -67,9 +67,9 @@ module.exports = React.createClass({
       </div>
     );
   },
-  
+
   onSetActive: function(eventKey) {
     this.setState({active: eventKey});
   },
-  
+
 });

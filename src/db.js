@@ -13,7 +13,7 @@ function onOpen(callback) {
 
 function open() {
   require("./models/account");
-  
+
   return Store.open({name: dbName})
   .then(function() {
     return Promise.all(
@@ -25,32 +25,38 @@ function open() {
 
 
 function id() {
-  return { type: "int", key: true };
+  return Updraft.Column.Int().Key();
+}
+
+function sortKey() {
+  return Updraft.Column.Int().Default(-1);
 }
 
 function enum_(type) {
-  return { type: "enum", enum: type };
+  return Updraft.Column.Enum(type);
 }
 
 function text() {
-  return { type: "text" };
+  return Updraft.Column.Text();
 }
 
 function ptr(ref) {
-  return { type: "ptr", ref: ref };
+  return Updraft.Column.Ptr(ref);
 }
 
 function bool() {
-  return { type: "bool" };
+  return Updraft.Column.Bool();
 }
 
 module.exports = {
 //  Account: store.createClass(require("./models/account").AccountDef),
   id,
+  sortKey,
   bool,
   enum_,
   text,
   ptr,
+
   Store,
   open,
   onOpen,

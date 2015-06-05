@@ -1,3 +1,4 @@
+/* @flow */
 "use strict";
 
 var webpack = require("webpack");
@@ -15,7 +16,7 @@ module.exports = {
       "bootstrap/dist/css/bootstrap.min.css",
       "select2/dist/css/select2.css",
       "x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css",
-      
+
       "bootstrap",
       "clone",
       "enum",
@@ -23,7 +24,7 @@ module.exports = {
       "i18next-client",
       "jquery",
       "lodash",
-      "newforms-bootstrap",
+      //"newforms-bootstrap",
       "react",
       "react/addons",
       "react-bootstrap",
@@ -44,16 +45,17 @@ module.exports = {
     filename: "ezm.js",
     library: "ezm"
   },
-  
+
   resolve: {
     extensions: ['', '.js', '.jsx'],
     //root: [path.join(__dirname, "bower_components")]
   },
-  
+
   jshint: JSON.parse(fs.readFileSync("./.jshintrc")),
-  
+
   module: {
     preLoaders: [
+      { test: /\.js$/, loader: "source-map-loader" },
       { test: /\.jsx?$/, exclude: /node_modules|updraft/, loader: 'jsxhint-loader?harmony' }
     ],
 
@@ -71,13 +73,13 @@ module.exports = {
 //    new webpack.ResolverPlugin(
 //      new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
 //    ),
-    
+
     // production defines
     new webpack.DefinePlugin({
       DEBUG: production ? 0 : 1,
       PRODUCTION: production ? 1 : 0,
     }),
-    
+
     // separate vendor chunk
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
@@ -95,9 +97,9 @@ module.exports = {
       "Reflux": "reflux",
     }),
   ],
-  
+
   resolveLoader: { root: __dirname + "/node_modules" },
-  
+
   devtool: "source-map"
 };
 

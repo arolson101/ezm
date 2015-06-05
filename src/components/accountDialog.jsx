@@ -7,7 +7,7 @@ var access = require('safe-access');
 var t = require("../t");
 var ficache = require("../ficache");
 var Editable = require("./xeditable");
-var {Account, AccountTypes, AccountTypes_t, Institution} = require("../models/account");
+var {Account, AccountType, AccountType_t, Institution} = require("../models/account");
 var AccountStore = require("../accountStore");
 
 var Keys = [
@@ -18,11 +18,11 @@ var Keys = [
   "institution",
 
   "online",
-  
+
   "fid",
   "org",
   "ofx",
-  
+
   "username",
   "password",
 ];
@@ -40,7 +40,7 @@ var AccountDialog = React.createClass({
     institution: React.PropTypes.instanceOf(Institution),
     accounts: React.PropTypes.arrayOf(Account),
   },
-  
+
   getInitialState: function() {
     var src = this.props.institution || new Institution();
     var state = {
@@ -54,20 +54,20 @@ var AccountDialog = React.createClass({
     });
     return state;
   },
-  
+
   render: function() {
     var title = this.props.id ? t("accountDialog.editTitle") : t("accountDialog.addTitle");
-    var canSave = this.state.name ? true : false;
-    
+    var canSave = (this.state.name && this.state.accounts.length > 0) ? true : false;
+
     var institutionOptions = _.map(ficache.byName(), function(fi) {
       return <option key={fi.id} value={fi.id}>{fi.name}</option>;
     });
-    
+
     var inputClasses = {
       labelClassName: "col-xs-2",
       wrapperClassName: "col-xs-10",
     };
-    
+
     return (
       <Modal {...this.props}
         title={title}
@@ -78,7 +78,7 @@ var AccountDialog = React.createClass({
         >
         <div className="modal-body">
           <form onSubmit={this.onSubmit} className="form-horizontal">
-          
+
             <Input
               ref="institution"
               type="select"
@@ -112,7 +112,7 @@ var AccountDialog = React.createClass({
               valueLink={this.linkState('web')}
               {...inputClasses}
             />
-            
+
             <Input
               type="textarea"
               rows="4"
@@ -122,7 +122,7 @@ var AccountDialog = React.createClass({
               valueLink={this.linkState('address')}
               {...inputClasses}
             />
-            
+
             <Input
               type="textarea"
               rows="4"
@@ -132,7 +132,7 @@ var AccountDialog = React.createClass({
               valueLink={this.linkState('notes')}
               {...inputClasses}
             />
-            
+
             <hr/>
 
             <Input
@@ -141,11 +141,11 @@ var AccountDialog = React.createClass({
               checkedLink={this.linkState('online')}
               wrapperClassName="col-xs-12"
             />
-            
+
             {this.renderOnlineFields(inputClasses)}
-            
+
             <hr/>
-            
+
             <Input label="Accounts" {...inputClasses}>
               {this.renderAccounts()}
               {this.state.accounts.length > 0 ? <hr/> : null}
@@ -161,7 +161,7 @@ var AccountDialog = React.createClass({
       </Modal>
     );
   },
-  
+
   renderOnlineFields: function(inputClasses) {
     if(this.state.online) {
       return (
@@ -197,7 +197,7 @@ var AccountDialog = React.createClass({
               {...inputClasses}
             />
           </Panel>
-          
+
           <Panel header={t("accountDialog.userpassInfo")}>
             <Input
               type="text"
@@ -219,7 +219,7 @@ var AccountDialog = React.createClass({
               {...inputClasses}
             />
           </Panel>
-          
+
           <Input label=" " {...inputClasses}>
             <Row>
               <Col xs={12}>
@@ -233,13 +233,13 @@ var AccountDialog = React.createClass({
       );
     }
   },
-  
+
   renderAccounts: function() {
-    var accountTypeOptions = AccountTypes.enums.map(function(type) {
-      return AccountTypes_t(type);
+    var accountTypeOptions = AccountType.enums.map(function(type) {
+      return AccountType_t(type);
     });
     return this.state.accounts.map(function(acct) {
-      var typeDisplay = AccountTypes_t(acct.type);
+      var typeDisplay = AccountType_t(acct.type);
       return (
         <Row key={acct.number}>
           <Col xs={1}>
@@ -285,10 +285,10 @@ var AccountDialog = React.createClass({
       );
     }, this);
   },
-  
+
   renderAddAccountForm: function() {
-    var accountTypeOptions = AccountTypes.enums.map(function(type) {
-      return <option key={type} value={type}>{AccountTypes_t(type)}</option>;
+    var accountTypeOptions = AccountType.enums.map(function(type) {
+      return <option key={type} value={type}>{AccountType_t(type)}</option>;
     });
     var btnEnabled = (this.state.addAccountType !== t("accountDialog.add.typePlaceholder")) &&
                       (this.state.addAccountNumber !== "") &&
@@ -326,27 +326,27 @@ var AccountDialog = React.createClass({
       </Row>
     );
   },
-  
+
   addAccount: function() {
     this.state.accounts.push({
-      type: AccountTypes.get(this.state.addAccountType * 1).key,
+      type: AccountType.get(this.state.addAccountType * 1).key,
       number: this.state.addAccountNumber,
       name: this.state.addAccountName,
       visible: true
     });
-    
+
     this.setState({
       addAccountType: t("accountDialog.add.typePlaceholder"),
       addAccountNumber: "",
       addAccountName: "",
     });
   },
-  
+
   toggleVis: function(acct) {
     acct.visible = !acct.visible;
     this.forceUpdate();
   },
-  
+
   componentDidMount: function() {
     var institution = this.refs.institution.getInputDOMNode();
     var $institution = $(institution);
@@ -357,7 +357,7 @@ var AccountDialog = React.createClass({
     $institution.data("prev", $institution.val());
     $institution.change(this.onInstitutionChange);
   },
-  
+
   onInstitutionChange: function() {
     var institution = this.refs.institution.getInputDOMNode();
     var $institution = $(institution);
@@ -369,7 +369,7 @@ var AccountDialog = React.createClass({
     var value = institution.options[institution.selectedIndex].value;
     var state = {institution: value};
     var newfi = ficache.get(value);
-    
+
     var initField = function(stateKey, fiProp) {
       fiProp = fiProp || stateKey;
       var getValue = (typeof fiProp === "function" ? fiProp : function(fi) { return access(fi, fiProp); });
@@ -399,17 +399,20 @@ var AccountDialog = React.createClass({
 
     this.setState(state);
   },
-  
-  onSubmit: function() {
+
+  onSubmit: function(e) {
+    e.preventDefault();
+    this.props.onRequestHide();
+
     var institution = new Institution();
     Keys.forEach(function(key) {
       institution[key] = this.state[key];
     }, this);
-    
+
     var accounts = _.map(this.state.accounts, function(account) {
       return new Account(account);
     });
-    
+
     AccountStore.save(institution, accounts);
   },
 });

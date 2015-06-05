@@ -53,6 +53,7 @@
     "napa": "^1.2.0",
     "replace-ext": "0.0.1",
     "resolve": "^1.0.0",
+    "source-map-loader": "^0.1.5",
     "style-loader": "^0.8.3",
     "webpack": "^1.5.3",
     "xml2js": "^0.4.5",

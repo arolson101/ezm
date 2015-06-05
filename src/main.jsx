@@ -60,41 +60,41 @@ var accountListData = [
 ];
 
 
-var Account = React.createClass({
+var Account = React.createClass({displayName: "Account",
   render: function() {
     var active = (this.props.selectedAccountId === this.props.account.id);
 
     return (
-      <OverlayTrigger trigger={["hover"]} placement="right"
-        overlay={
-          <Popover title={t(" RecentTransactions")}>
-            <Table condensed>
-              <tr><td>1/2/2015</td><td>Company</td><td>$123</td></tr>
-              <tr><td>1/2/2015</td><td>Company</td><td>$123</td></tr>
-              <tr><td>1/2/2015</td><td>Company</td><td>$123</td></tr>
-            </Table>
-          </Popover>
-        }>
+      L(OverlayTrigger, {trigger: ["hover"], placement: "right", 
+        overlay: 
+          L(Popover, {title: t(" RecentTransactions")}, 
+            L(Table, {condensed: true}, 
+              L("tr", null, L("td", null, "1/2/2015"), L("td", null, "Company"), L("td", null, "$123")), 
+              L("tr", null, L("td", null, "1/2/2015"), L("td", null, "Company"), L("td", null, "$123")), 
+              L("tr", null, L("td", null, "1/2/2015"), L("td", null, "Company"), L("td", null, "$123"))
+            )
+          )
+        }, 
 
-        <ListGroupItem
-          onClick={this.props.onAccountClick}
-          eventKey={this.props.account.id}
-          active={active}
-          >
-          <span>
-            <i className="fa fa-money"></i> {this.props.account.name}
-          </span>
-          <span className="pull-right">
-            <small>$1,234.56</small>
-          </span>
-        </ListGroupItem>
-      </OverlayTrigger>
+        L(ListGroupItem, {
+          onClick: this.props.onAccountClick, 
+          eventKey: this.props.account.id, 
+          active: active
+          }, 
+          L("span", null, 
+            L("i", {className: "fa fa-money"}), " ", this.props.account.name
+          ), 
+          L("span", {className: "pull-right"}, 
+            L("small", null, "$1,234.56")
+          )
+        )
+      )
     );
   }
 });
 
 
-var Institution = React.createClass({
+var Institution = React.createClass({displayName: "Institution",
   getInitialState: function() {
     return { active: '' };
   },
@@ -103,21 +103,21 @@ var Institution = React.createClass({
     var items = this.props.inst.accounts.map(function(acct) {
       //return <ListGroupItem key={acct.name}><span>{acct.name}</span><span className="pull-right">{acct.name}</span></ListGroupItem>;
       return (
-        <Account
-          key={acct.id}
-          account={acct}
-          store={this.props.store}
-          selectedAccountId={this.props.selectedAccountId}
-          onAccountClick={this.props.onAccountClick}
-        />
+        L(Account, {
+          key: acct.id, 
+          account: acct, 
+          store: this.props.store, 
+          selectedAccountId: this.props.selectedAccountId, 
+          onAccountClick: this.props.onAccountClick}
+        )
       );
     }.bind(this));
 
-    return <ListGroupItem header={this.props.inst.name}>{items}</ListGroupItem>;
+    return L(ListGroupItem, {header: this.props.inst.name}, items);
   }
 });
 
-var AccountList = React.createClass({
+var AccountList = React.createClass({displayName: "AccountList",
   getInitialState: function() {
     return {
       selectedAccountId: '',
@@ -127,46 +127,47 @@ var AccountList = React.createClass({
   render: function() {
     var items = this.props.accounts.map(function(inst) {
       return (
-        <Institution
-          key={inst.name}
-          inst={inst}
-          selectedAccountId={this.state.selectedAccountId}
-          onAccountClick={this.onAccountClick}
-        />
+        L(Institution, {
+          key: inst.name, 
+          inst: inst, 
+          selectedAccountId: this.state.selectedAccountId, 
+          onAccountClick: this.onAccountClick}
+        )
       );
     }.bind(this));
-    
-    return <ListGroup>{items}</ListGroup>;
+
+    return L(ListGroup, null, items);
   },
-  
+
   onAccountClick: function(id) {
     this.setState({selectedAccountId: id});
   },
-  
+
   getSelectedAccountId: function() {
     return this.state.selectedAccountId;
   }
 });
 
 var AccountStore = require("./accountStore");
+var Reflux = require("reflux");
 
 var Sortable = require("sortablejs");
 
-var Item = React.createClass({
+var Item = React.createClass({displayName: "Item",
   //mixins: [sortable.ItemMixin],
   render: function() {
-    return <ListGroupItem>
-      <span className="drag-handle"><i className="fa fa-bars"></i></span> item {this.props.item.name}
-      <div ref="root">
-        <ListGroupItem onClick={this.click}>sub1</ListGroupItem>
-        <ListGroupItem onClick={this.click}>sub2</ListGroupItem>
-      </div>
-    </ListGroupItem>;
+    return L(ListGroupItem, null, 
+      L("span", {className: "drag-handle"}, L("i", {className: "fa fa-bars"})), " item ", this.props.item.name, 
+      L("div", {ref: "root"}, 
+        L(ListGroupItem, {onClick: this.click}, "sub1"), 
+        L(ListGroupItem, {onClick: this.click}, "sub2")
+      )
+    );
   },
-  
+
   click: function() {
   },
-  
+
   componentDidMount: function() {
     // Set items' data, key name `items` required
     //this.setState({ items: this.props.items });
@@ -176,11 +177,11 @@ var Item = React.createClass({
       ghostClass: "sortable-ghost",
     });
   },
-  
+
   componentWillUnmount: function () {
     this.sortable.destroy();
   },
-  
+
   onUpdate: function (/**Event*/evt) {
     console.log("onUpdate", evt);
     //var itemEl = evt.item;  // dragged HTMLElement
@@ -190,18 +191,18 @@ var Item = React.createClass({
 
 var idServer = 100;
 
-var List = React.createClass({
+var List = React.createClass({displayName: "List",
   mixins: [
     Reflux.connect(AccountStore, "list"),
     React.addons.LinkedStateMixin
   ],
-  
+
   getInitialState: function() {
     return {
       text: 'hello',
     };
   },
-  
+
   componentDidMount: function() {
     // Set items' data, key name `items` required
     //this.setState({ items: this.props.items });
@@ -211,7 +212,7 @@ var List = React.createClass({
       ghostClass: "sortable-ghost", 
     });
   },
-  
+
   componentWillUnmount: function () {
     this.sortable.destroy();
   },
@@ -225,52 +226,56 @@ var List = React.createClass({
       //this.refs.editInput.getDOMNode().blur();
     }
   },
-  
+
   render: function() {
     var items = this.props.list.map(function(item, i) {
-      return <Item key={item.id} item={item} index={i} {...this.movableProps}/>;
+      return L(Item, React.__spread({key: item.id, item: item, index: i},  this.movableProps));
     }, this);
-  
+
     return (
-      <div>
-        <ListGroupItem ref="root">
-          {items}
-        </ListGroupItem>
-        <Input
-          type="text"
-          placeholder="Enter text"
-          valueLink={this.linkState('text')}
-          onKeyUp={this.handleValueChange} />
-      </div>
+      L("div", null, 
+        L(ListGroupItem, {ref: "root"}, 
+          items
+        ), 
+        L(Input, {
+          type: "text", 
+          placeholder: "Enter text", 
+          valueLink: this.linkState('text'), 
+          onKeyUp: this.handleValueChange})
+      )
     );
   }
 });
 
+
+
+var L = L;
+
 function main() {
   if(0) {
     React.render(
-      <Grid>
-        <Col md={4}>
-          <AccountList accounts={accountListData}/>
-          <ListGroupItem>{t("Budget")}</ListGroupItem>
-        </Col>
-      </Grid>,
+      L(Grid, null, 
+        L(Col, {md: 4}, 
+          L(AccountList, {accounts: accountListData}), 
+          L(ListGroupItem, null, t("Budget"))
+        )
+      ),
       document.body
     );
   }
   else if(0) {
     React.render(
-      <List list={AccountStore.getDefaultData()}/>,
+      L(List, {list: AccountStore.getDefaultData()}),
       document.body
     );
   }
   else {
     React.render(
-      <Grid>
-        <Col md={4}>
-          <Sidebar/>
-        </Col>
-      </Grid>,
+      L(Grid, null, 
+        L(Col, {md: 4}, 
+          L(Sidebar, null)
+        )
+      ),
       document.body
     );
   }
