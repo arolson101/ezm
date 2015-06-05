@@ -3,22 +3,22 @@
 var Enum = require("enum");
 var hash = require("string-hash");
 var t = require("../t");
-var {Store, id, bool, enum_, text, sortKey, ptr} = require("../db");
-var Updraft = require("updraft");
+var {Store, id, bool, enum_, text, ptr} = require("../db");
 
-var AccountType = new Enum([
+
+var AccountTypes = new Enum([
   "CHECKING",
   "SAVINGS",
   "CREDITCARD",
 ]);
 
 
-function AccountType_t(val) {
-  return t("AccountType." + val.toString());
+function AccountTypes_t(val) {
+  return t("AccountTypes." + val.toString());
 }
 
-function Institution() { Updraft.Instance.apply(this, arguments); }
-Updraft.createClass(Institution, {
+
+var Institution = Store.createClass({
   tableName: "institutions",
   columns: {
     id: id(),
@@ -27,37 +27,38 @@ Updraft.createClass(Institution, {
     address: text(),
     notes: text(),
 
-    online: bool().Default(true),
+    online: bool(),
 
     fid: text(),
     org: text(),
     ofx: text(),
-
+    
     username: text(),
     password: text(),
   },
-
+  
+  constructor: function() {
+    this.online = true;
+  },
+  
   assignId: function() {
     if(!this.id) {
       this.id = hash(Date.now().toString());
     }
   }
 });
-Store.addClass(Institution);
 
 
-function Account() { Updraft.Instance.apply(this, arguments); }
-Updraft.createClass(Account, {
+var Account = Store.createClass({
   tableName: "accounts",
   columns: {
     id: id(),
     institution: ptr(Institution),
     name: text(),
-    type: enum_(AccountType),
+    type: enum_(AccountTypes),
     number: text(),
-    sortOrder: sortKey(),
   },
-
+  
   assignId: function() {
     if(!this.id) {
       console.assert(this.institution);
@@ -66,13 +67,12 @@ Updraft.createClass(Account, {
     }
   }
 });
-Store.addClass(Account);
 
 
 
 module.exports = {
-  AccountType,
-  AccountType_t,
+  AccountTypes,
+  AccountTypes_t,
   Institution,
   Account,
 };

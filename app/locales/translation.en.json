@@ -1,13 +1,13 @@
 {
   "RecentTransactions": "Recent Transactions 2",
   "Budget": "Budget",
-
-  "AccountType": {
+  
+  "AccountTypes": {
     "CHECKING": "Checking",
     "SAVINGS": "Savings",
     "CREDITCARD": "Credit Card"
   },
-
+  
   "sidebar": {
     "home": "Home",
     "accounts": "Accounts",
@@ -15,7 +15,7 @@
     "calendar": "Calendar",
     "addAccountTooltip": "Add account"
   },
-
+  
   "accountDialog": {
     "addTitle": "Add Accounts",
     "editTitle": "Edit Accounts",

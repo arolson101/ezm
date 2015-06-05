@@ -9,53 +9,58 @@ var actions = Reflux.createActions([
 ]);
 
 
+var idServer = 1;
 var institutions = [];
+//var accounts = [{id: idServer++, name:'abc'}, {id: idServer++, name: 'def'}];
 var accounts = [];
 
 var AccountStore = Reflux.createStore({
   listenables: actions,
-
+  
   actions: actions,
-
+  
   onDbOpen: function() {
     return Promise.all([
       Institution.all.get().then(function(results) {
         institutions = results;
+        var ids = _.pluck(results, "id");
+        ids.push(0);
+        idServer = _.max(ids) + 1;
       }),
-      Account.all.order('sortOrder').get().then(function(results) {
+      Account.all.get().then(function(results) {
         accounts = results;
       }),
-    ]).then(() => this.trigger(accounts));
+    ]);
   },
-
+  
   save: function(institution, accounts) {
     // TODO: remove accounts somehow
     institution.assignId();
-
-    accounts.forEach(function(account, idx) {
-      if(account.sortOrder == -1) {
-        account.sortOrder = accounts.length + idx;
-      }
+    
+    _.forEach(accounts, function(account) {
       account.institution = institution;
       account.assignId();
     });
-
-    return Db.Store.save(institution, accounts).then(this.onDbOpen);
+    
+    var toSave = [institution].concat(accounts);
+    return Db.Store.save(toSave);
   },
-
+  
   onAddInstitution: function(newInstitution) {
     console.assert(!newInstitution.id);
+    newInstitution.id = idServer++;
     console.log("onAddInstitution", newInstitution);
     Db.Store.save(newInstitution);
     accounts.push(newInstitution);
     this.trigger(accounts);
   },
-
+  
   onAddAccount: function(newAccount) {
     console.log("onAddAccount", newAccount);
   },
-
-  getData: function() {
+  
+  getDefaultData: function() {
+    console.log("getDefaultData");
     return accounts;
   }
 });
