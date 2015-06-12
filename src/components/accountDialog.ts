@@ -2,7 +2,8 @@
 
 import clone = require("clone");
 import React = require("react");
-import {Panel, Button, Icon, Input, Modal, Row, Col} from "../factories";
+import {Panel, Button, Input, Modal, Row, Col} from "react-bootstrap";
+import Icon = require("react-fa");
 import access = require("safe-access");
 import {t} from "../t";
 import * as ficache from "../ficache";
@@ -10,7 +11,7 @@ import {XText, XSelect} from "./xeditable";
 import {Account, IAccount, AccountType, AccountType_t, Institution} from "../models/account";
 import {EnumEx} from "../enumEx";
 import {AccountStore} from "../accountStore";
-
+import {LinkedStateComponent} from "./linkedComponent";
 
 var Keys = [
   "name",
@@ -66,7 +67,7 @@ interface State {
   password?: string;
  }
 
-export class AccountDialogClass extends React.Component<Props, State> {
+export class AccountDialog extends LinkedStateComponent<Props, State> {
   //mixins: [React.addons.LinkedStateMixin],
   
   constructor(props?: Props) {
@@ -94,8 +95,10 @@ export class AccountDialogClass extends React.Component<Props, State> {
       wrapperClassName: "col-xs-10",
     };
 
+    var institutionOptions = ficache.byName().map(fi => React.DOM.option({value: fi.id.toString(), key: fi.id}, fi.name));     
+
     return (
-      Modal(<ModalAttributes>_.merge({
+      React.createElement(Modal, <ModalAttributes>_.merge({
         title: title,
         animation: true,
         backdrop: "static",
@@ -104,7 +107,8 @@ export class AccountDialogClass extends React.Component<Props, State> {
       }, this.props),
         React.DOM.div({className: "modal-body"},
           React.DOM.form({onSubmit: this.onSubmit, className: "form-horizontal"}, 
-            Input({
+            React.createElement(Input,{
+              key: "institution",
               ref: "institution",
               type: "select",
               label: t("accountDialog.institutionLabel"),
@@ -112,53 +116,61 @@ export class AccountDialogClass extends React.Component<Props, State> {
               defaultValue: this.state.id,
               wrapperClassName: "col-xs-10",
               labelClassName: "col-xs-2"
-            }),
+            },
+              React.DOM.option(),
+              institutionOptions
+            ),
             
             React.DOM.hr(),
             
-            Input(_.merge({
+            React.createElement(Input,_.merge({
+              key: "name",
               type: "text",
               label: t("accountDialog.nameLabel"),
               help: t("accountDialog.nameHelp"),
               placeholder: t("accountDialog.namePlaceholder"),
               defaultValue: this.state.name,
-              //valueLink={this.linkState('name')}
+              valueLink: this.linkState('name'),
               wrapperClassName: "col-xs-10",
               labelClassName: "col-xs-2"
             }, inputClasses)),
 
-            Input(_.merge({
+            React.createElement(Input, _.merge({
+              key: "web",
               type: "text",
               label: t("accountDialog.webLabel"),
               placeholder: t("accountDialog.webPlaceholder"),
               defaultValue: this.state.web,
-              //valueLink={this.linkState('name')}
+              valueLink: this.linkState('web'),
             }, inputClasses)),
 
-            Input(_.merge({
+            React.createElement(Input, _.merge({
+              key: "address",
               type: "textarea",
               rows: 4,
               label: t("accountDialog.addressLabel"),
               placeholder: t("accountDialog.addressPlaceholder"),
               defaultValue: this.state.address,
-              //valueLink={this.linkState('address')}
+              valueLink: this.linkState('address'),
             }, inputClasses)),
 
-            Input(_.merge({
+            React.createElement(Input, _.merge({
+              key: "notes",
               type: "textarea",
               rows: 4,
               label: t("accountDialog.notesLabel"),
               placeholder: t("accountDialog.notesPlaceholder"),
               defaultValue: this.state.notes,
-              //valueLink={this.linkState('address')}
+              valueLink: this.linkState('notes'),
             }, inputClasses)),
             
             React.DOM.hr(),
             
-            Input({
+            React.createElement(Input, {
+              key: "online",
               type: "checkbox",
               label: t("accountDialog.enableOnline"),
-              //checkedLink: this.linkState('online'),
+              checkedLink: this.linkState('online'),
               wrapperClassName: "col-xs-12"
             }),
             
@@ -166,15 +178,15 @@ export class AccountDialogClass extends React.Component<Props, State> {
             
             React.DOM.hr(),
             
-            Input(_.merge({label: "Accounts"}, inputClasses), 
+            React.createElement(Input, _.merge({label: "Accounts"}, inputClasses), 
               this.renderAccounts(),
               (this.state.accounts.length ? React.DOM.hr() : null),
               this.renderAddAccountForm()
             ),
             
-            React.DOM.div({className: "modal-footer"},
-              Button({onClick: this.props.onRequestHide}, t("accountDialog.close")),
-              Button({bsStyle: "primary", type: "submit", disabled: !canSave}, t("accountDialog.save"))
+            React.DOM.div({key: "footer", className: "modal-footer"},
+              React.createElement(Button, {onClick: this.props.onRequestHide}, t("accountDialog.close")),
+              React.createElement(Button, {bsStyle: "primary", type: "submit", disabled: !canSave}, t("accountDialog.save"))
             )
           )
         )
@@ -185,61 +197,66 @@ export class AccountDialogClass extends React.Component<Props, State> {
   renderOnlineFields(inputClasses) {
     if(this.state.online) {
       return (
-        React.DOM.div(null, [
-          Panel({header: t("accountDialog.ofxInfo")}, [
-            Input(_.merge({
+        React.DOM.div({key: "onlineFields"}, [
+          React.createElement(Panel, {key: "ofx", header: t("accountDialog.ofxInfo")}, [
+            React.createElement(Input, _.merge({
+              key: "fid",
               type: "text",
               label: t("accountDialog.fidLabel"),
               help: t("accountDialog.fidHelp"),
               placeholder: t("accountDialog.fidPlaceholder"),
               defaultValue: this.state.fid,
-              //valueLink: this.linkState('fid')
+              valueLink: this.linkState('fid')
             }, inputClasses)),
             
-            Input(_.merge({
+            React.createElement(Input, _.merge({
+              key: "org",
               type: "text",
               label: t("accountDialog.orgLabel"),
               help: t("accountDialog.orgHelp"),
               placeholder: t("accountDialog.orgPlaceholder"),
               defaultValue: this.state.org,
-              //valueLink: this.linkState('org')
+              valueLink: this.linkState('org')
             }, inputClasses)),
             
-            Input(_.merge({
+            React.createElement(Input, _.merge({
+              key: "ofx",
               type: "text",
               label: t("accountDialog.ofxLabel"),
               help: t("accountDialog.ofxHelp"),
               placeholder: t("accountDialog.ofxPlaceholder"),
               defaultValue: this.state.ofx,
-              //valueLink: this.linkState('ofx')
+              valueLink: this.linkState('ofx')
             }, inputClasses)),
           ]),
           
-          Panel({header: t("accountDialog.userpassInfo")}, [
-            Input(_.merge({
+          React.createElement(Panel, {key: "pass", header: t("accountDialog.userpassInfo")}, [
+            React.createElement(Input, _.merge({
+              key: "username",
               type: "text",
               label: t("accountDialog.usernameLabel"),
               help: t("accountDialog.usernameHelp"),
               placeholder: t("accountDialog.usernamePlaceholder"),
               defaultValue: this.state.username,
-              //valueLink: this.linkState('username')
+              valueLink: this.linkState('username')
             }, inputClasses)),
             
-            Input(_.merge({
+            React.createElement(Input, _.merge({
+              key: "password",
               type: "text",
               label: t("accountDialog.passwordLabel"),
               help: t("accountDialog.passwordHelp"),
               placeholder: t("accountDialog.passwordPlaceholder"),
               defaultValue: this.state.password,
-              //valueLink: this.linkState('password')
+              valueLink: this.linkState('password')
             }, inputClasses)),
           ]),
 
-          Input(_.merge({label: " "}, inputClasses),
-            Row(null,
-              Col({xs: 12},
+          React.createElement(Input, _.merge({key: "accountList", label: " "}, inputClasses),
+            React.createElement(Row, null,
+              React.createElement(Col, {xs: 12},
                 React.DOM.span({className:"pull-right"},
-                  Button(null, t("accountDialog.getAccountList"))
+                  React.createElement(Button, null, t("accountDialog.getAccountList"))
                 )
               ) 
             ) 
@@ -255,31 +272,31 @@ export class AccountDialogClass extends React.Component<Props, State> {
     return this.state.accounts.map(acct => {
       var typeDisplay = AccountType_t(acct.type);
       return (
-        Row({key: acct.number}, [
-          Col({xs: 1},
-            Button({
+        React.createElement(Row, {key: acct.number}, [
+          React.createElement(Col, {xs: 1},
+            React.createElement(Button, <ButtonAttributes>{
               bsStyle: "link",
               onClick: this.toggleVis.bind(this, acct),
               title: t("accountDialog.toggleVisTooltip"),
             },
-              Icon({name: acct.visible ? "eye" : "eye-slash"})
+              React.createElement(Icon, {name: acct.visible ? "eye" : "eye-slash"})
             )
           ),
-          Col({xs: 2},
+          React.createElement(Col, {xs: 2},
             XSelect({source: accountTypeOptions},
               typeDisplay 
             )
           ),
-          Col({xs: 3},
-            Button({bsStyle: "link", disabled: true}, acct.number)
+          React.createElement(Col, {xs: 3},
+            React.createElement(Button, {bsStyle: "link", disabled: true}, acct.number)
           ),
-          Col({xs: 3},
+          React.createElement(Col, {xs: 3},
             XText({title: t("accountDialog.add.namePlaceholder"), validate: ValidateNotEmpty},
               acct.name
             )
           ),
-          Col({xs: 1},
-            Button({bsStyle: "link", onClick: null},
+          React.createElement(Col, {xs: 1},
+            React.createElement(Button, {bsStyle: "link", onClick: null},
               "Remove"
             )
           )
@@ -296,33 +313,33 @@ export class AccountDialogClass extends React.Component<Props, State> {
                       (this.state.addAccountNumber !== 0) &&
                       (this.state.addAccountName !== "");
     return (
-      Row(null, [
-        Col({xs: 3, key: "opts"},
+      React.createElement(Row, null, [
+        React.createElement(Col, {xs: 3, key: "opts"},
           React.DOM.select({
-            className: "form-control"
-            //valueLink: this.linkState('addAccountType')
+            className: "form-control",
+            valueLink: this.linkState('addAccountType')
             },
             accountTypeOptions
           )
         ),
-        Col({xs: 3, key: "id"},
+        React.createElement(Col, {xs: 3, key: "id"},
           React.DOM.input({
             type: "text",
             className: "form-control",
-            //valueLink: this.linkState('addAccountNumber'),
+            valueLink: this.linkState('addAccountNumber'),
             placeholder: t("accountDialog.add.idPlaceholder")
           })
         ),
-        Col({xs: 3, key: "name"},
+        React.createElement(Col, {xs: 3, key: "name"},
           React.DOM.input({
             type: "text",
             className: "form-control",
-            //valueLink: this.linkState('addAccountName'),
+            valueLink: this.linkState('addAccountName'),
             placeholder: t("accountDialog.add.namePlaceholder")
           })
         ),
-        Col({xs: 1, key: "add"},
-          Button({disabled: !btnEnabled, onClick: this.addAccount}, t("accountDialog.addAccount"))
+        React.createElement(Col, {xs: 1, key: "add"},
+          React.createElement(Button, {disabled: !btnEnabled, onClick: this.addAccount}, t("accountDialog.addAccount"))
         )
       ])
     );
@@ -349,17 +366,11 @@ export class AccountDialogClass extends React.Component<Props, State> {
   }
   
   componentDidMount() {
-    var data = ficache.byName().map(fi => { return {
-      id: fi.id.toString(),
-      text: fi.name
-    }});
-    
     var institution = (<any>this.refs["institution"]).getInputDOMNode();
     var $institution = $(institution);
     $institution.select2({
       placeholder: t("accountDialog.institutionPlaceholder"),
-      allowClear: true,
-      data: data
+      allowClear: true
     });
     $institution.data("prev", $institution.val());
     $institution.change(this.onInstitutionChange);
@@ -419,6 +430,3 @@ export class AccountDialogClass extends React.Component<Props, State> {
     AccountStore.save(institution, accounts);
   }
 }
-
-
-export var AccountDialog = React.createFactory(AccountDialogClass);

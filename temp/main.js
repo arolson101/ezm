@@ -1,9 +1,9 @@
 ///<reference path="project.d.ts"/>
 require("./ezm.css");
-var _a = require("ReactBootstrap"), Input = _a.Input, ListGroup = _a.ListGroup, ListGroupItem = _a.ListGroupItem, OverlayTrigger = _a.OverlayTrigger, Popover = _a.Popover, Table = _a.Table, Grid = _a.Grid, Col = _a.Col;
+var React = require("react");
+var _a = require("react-bootstrap"), Input = _a.Input, ListGroup = _a.ListGroup, ListGroupItem = _a.ListGroupItem, OverlayTrigger = _a.OverlayTrigger, Popover = _a.Popover, Table = _a.Table, Grid = _a.Grid, Col = _a.Col;
 var t = require("./t");
 var ficache = require("./ficache");
-var Sidebar = require("./components/sidebar");
 var db = require("./db");
 var accountListData = [
     {
@@ -37,6 +37,15 @@ var accountListData = [
         ]
     },
 ];
+function asdf() {
+    if (0) {
+    }
+    else if (0) {
+    }
+    else {
+        React.render(React.jsx("\n      <Grid>\n        <Col md={4}>\n          <Sidebar/>\n        </Col>\n      </Grid>\n    "), document.body);
+    }
+}
 function reportError(err) {
     console.log(err);
 }
@@ -46,8 +55,8 @@ function main() {
         ficache.init(),
         db.open(),
     ])
-        .then(main)
+        .then(asdf)
         .catch(reportError);
 }
+exports.main = main;
 ;
-module.exports = main;

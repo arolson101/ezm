@@ -59,7 +59,8 @@ module.exports = {
 
     loaders: [
       { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.ts$/, loader: 'ts-loader!ts-jsx-loader' },
+      //{ test: /\.ts$/, loader: 'ts-loader!ts-jsx-loader' },
+      { test: /\.ts$/, loader: 'typescript-simple-loader' },
       { test: /\.jsx?$/, loader: 'jsx-loader?harmony' },
       { test: /\.css$/, loader: "style-loader!css-loader" },
       { test: /\.(svg|woff|woff2|ttf|eot)($|\?)/, loader: "file?name=fonts/[name].[ext]" },

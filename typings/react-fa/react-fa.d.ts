@@ -22,6 +22,6 @@ declare module "react-fa" {
 		inverse?: boolean;
 	}
 	
-	var Icon:React.Factory<IconAttributes>;
+	var Icon:React.ComponentClass<IconAttributes>;
 	export = Icon;
 }

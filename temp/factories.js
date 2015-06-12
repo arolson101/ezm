@@ -1,0 +1,17 @@
+///<reference path="project.d.ts"/>
+var Bootstrap = require("react-bootstrap");
+var IconFa = require("react-fa");
+exports.Button = React.createFactory(Bootstrap.Button);
+exports.Modal = React.createFactory(Bootstrap.Modal);
+exports.ModalTrigger = React.createFactory(Bootstrap.ModalTrigger);
+exports.Input = React.createFactory(Bootstrap.Input);
+exports.ListGroup = React.createFactory(Bootstrap.ListGroup);
+exports.ListGroupItem = React.createFactory(Bootstrap.ListGroupItem);
+exports.OverlayTrigger = React.createFactory(Bootstrap.OverlayTrigger);
+exports.Popover = React.createFactory(Bootstrap.Popover);
+exports.Grid = React.createFactory(Bootstrap.Grid);
+exports.Row = React.createFactory(Bootstrap.Row);
+exports.Col = React.createFactory(Bootstrap.Col);
+exports.Panel = React.createFactory(Bootstrap.Panel);
+exports.Table = React.createFactory(Bootstrap.Table);
+exports.Icon = React.createFactory(IconFa);

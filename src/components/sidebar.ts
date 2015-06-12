@@ -1,6 +1,7 @@
 /// <reference path="../project.d.ts"/>
 
-import {Button, Icon, ListGroupItem, ModalTrigger} from "../factories";
+import {Button, ListGroupItem, ModalTrigger} from "react-bootstrap";
+import Icon = require("react-fa");
 
 import {t} from "../t";
 import {AccountStore} from "../accountStore";
@@ -16,7 +17,7 @@ interface State {
 }
 
 
-export class Sidebar/*Class*/ extends React.Component<{}, State> {
+export class Sidebar extends React.Component<{}, State> {
 //  mixins: [
 //    Reflux.connect(AccountStore, "list"),
 //    SortableMixin("root", $.extend({}, SortableMixin.DefaultProps)),
@@ -45,7 +46,7 @@ export class Sidebar/*Class*/ extends React.Component<{}, State> {
   
     var accounts = this.state.accounts.map((account) => {
       return (
-        AccountDisplay(<any>_.merge(selectionProps(account.id), {account: account}))
+        React.createElement(AccountDisplay, _.merge(selectionProps(account.id), {account: account}))
       );
     });
     
@@ -57,17 +58,17 @@ export class Sidebar/*Class*/ extends React.Component<{}, State> {
     
     return (
       React.DOM.div(null, 
-        ListGroupItem({ref: "root"},
-          ListGroupItem(selectionProps("home"), Icon({name: "home"}), " ", t("sidebar.home")),
+        React.createElement(ListGroupItem, {ref: "root"},
+          React.createElement(ListGroupItem, selectionProps("home"), React.createElement(Icon, {name: "home"}), " ", t("sidebar.home")),
           accounts,
-          ListGroupItem(selectionProps("budget"), Icon({name: "area-chart"}), " ", t("sidebar.budget")),
-          ListGroupItem(selectionProps("calendar"), Icon({name: "calendar"}), " ", t("sidebar.calendar"))
+          React.createElement(ListGroupItem, selectionProps("budget"), React.createElement(Icon, {name: "area-chart"}), " ", t("sidebar.budget")),
+          React.createElement(ListGroupItem, selectionProps("calendar"), React.createElement(Icon, {name: "calendar"}), " ", t("sidebar.calendar"))
         ),
         
         React.DOM.span({className: "pull-right", style: {marginTop: 5}},
-          ModalTrigger({modal: AccountDialog()},
-            Button(null,
-              Icon({name: "plus"})
+          React.createElement(ModalTrigger, <any>{modal: React.createElement(AccountDialog)},
+            React.createElement(Button, null,
+              React.createElement(Icon, {name: "plus"})
             )
           )
         )
@@ -80,6 +81,3 @@ export class Sidebar/*Class*/ extends React.Component<{}, State> {
   }
   
 }
-
-
-//export var Sidebar = React.createFactory(SidebarClass);

@@ -265,19 +265,20 @@ function asdf() {
 //    );
   }
   else {
-    React.render(React.jsx(`
-      <Grid>
-        <Col md={4}>
-          <Sidebar/>
-        </Col>
-      </Grid>
-    `),
+     React.render(
+    //React.jsx(`
+    //   <Grid>
+    //     <Col md={4}>
+    //       <Sidebar/>
+    //     </Col>
+    //   </Grid>
+    // `),
     
-//      Grid(null,
-//        Col({md: 4},
-//          Sidebar()
-//        )
-//      ),
+     React.createElement(Grid, null,
+       React.createElement(Col, {md: 4},
+         React.createElement(Sidebar)
+       )
+     ),
       document.body
     );
   }

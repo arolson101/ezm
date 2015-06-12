@@ -1,6 +1,6 @@
 /// <reference path="../project.d.ts"/>
 
-import {ListGroupItem} from "../factories";
+import {ListGroupItem} from "react-bootstrap";
 import {Account} from "../models/account";
 import React = require("react");
 
@@ -12,7 +12,7 @@ interface Props extends ListGroupItemAttributes {
 }
 
 
-export class AccountDisplayClass extends React.Component<Props, {}> {
+export class AccountDisplay extends React.Component<Props, {}> {
   render() {
     //var onClick = this.onClick;
     
@@ -24,7 +24,7 @@ export class AccountDisplayClass extends React.Component<Props, {}> {
 */
 
     return (
-      ListGroupItem(_.merge({bsSize: "small"}, this.props),
+      React.createElement(ListGroupItem, _.merge({bsSize: "small"}, this.props),
         this.props.account.name
       )
     );
@@ -32,4 +32,4 @@ export class AccountDisplayClass extends React.Component<Props, {}> {
 }
 
 
-export var AccountDisplay = React.createFactory(AccountDisplayClass);
+//export var AccountDisplay = React.createFactory(AccountDisplayClass);
