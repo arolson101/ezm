@@ -6,7 +6,8 @@ import Icon = require("react-fa");
 import {t} from "../t";
 import {AccountStore} from "../accountStore";
 import {AccountDisplay} from "./accountDisplay";
-import {Account, Institution} from "../models/account";
+import {Account} from "../models/account";
+import {Institution} from "../models/institution";
 import {SortableMixin} from "../mixins/sortable";
 import {AccountDialog} from "./accountDialog";
 import {applyMixins} from "../mixins/applyMixins";
@@ -47,7 +48,7 @@ export class Sidebar extends React.Component<{}, State> {
   
     var accounts = this.state.accounts.map((account) => {
       return (
-        React.createElement(AccountDisplay, _.merge(selectionProps(account.id), {account: account}))
+        React.createElement(AccountDisplay, _.merge(selectionProps(account.dbid), {account: account}))
       );
     });
     

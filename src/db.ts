@@ -1,35 +1,48 @@
 /// <reference path="project.d.ts"/>
 
-//var Updraft = require("updraft");
+import {Institution} from "./models/institution";
+import {Account} from "./models/account";
+
 
 interface OnOpenCallback {
   (): Promise<any>;
 }
 
-var storeOptions = {
-  name: "EasyMoney"
-}
 
-export var Store = new Updraft.Store();
-//Store.logSql = true;
-var openCallbacks: OnOpenCallback[] = [];
-
-export function onOpen(callback: OnOpenCallback) {
-  openCallbacks.push(callback);
-}
-
-export function open(): Promise<any> {
-  require("./models/account");
+class Database {
+  Store: Updraft.Store;
+  openCallbacks: OnOpenCallback[];
   
-  return Store.open(storeOptions)
-  .then(function() {
+  constructor() {
+    this.Store = new Updraft.Store();
+    this.Store.addClass(Account);
+    this.Store.addClass(Institution);
+    
+    this.openCallbacks = [];
+  }
+  
+  onOpen(callback: OnOpenCallback) {
+    this.openCallbacks.push(callback);
+  }
+
+  
+  open(): Promise<any> {
+    require("./models/account");
+    
+    var storeOptions = {
+      name: "EasyMoney"
+    }
+  
+    //this.Store.logSql = true;
+    return this.Store.open(storeOptions)
+    .then(() => this.callOpenCallbacks());
+  }
+  
+  private callOpenCallbacks(): Promise<any> {
     return Promise.all(
-      openCallbacks.map( callback => callback() )
+      this.openCallbacks.map( callback => callback() )
     );
-  });
+  }
 }
 
-
-export function Id(): Updraft.Column {
-  return Updraft.Column.Int().Key();
-}
+export var db = new Database();

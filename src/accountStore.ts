@@ -1,7 +1,8 @@
 /// <reference path='project.d.ts'/>
 
-import * as db from "./db";
-import {Account, Institution} from "./models/account";
+import {db} from "./db";
+import {Account} from "./models/account";
+import {Institution} from "./models/institution";
 
 interface Actions extends Reflux.ActionObject {
   addInstitution: Reflux.Action</*Institution*/string>;

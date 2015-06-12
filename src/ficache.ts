@@ -4,17 +4,26 @@ export interface FI extends FinancialInstitution {
   id: number;
 }
 
-var filist: FI[] = require("filist");
+class FiCache {
+  private filist: FI[];
+  
+  constructor() {
+    filist: require("filist");
+  }
 
-export function init(): void {
-  filist = _.sortBy(filist, fi => fi.name.toLowerCase());
-  filist.forEach( (fi: FI, idx: number) => fi.id = idx );
+  init(): void {
+    this.filist = _.sortBy(this.filist, fi => fi.name.toLowerCase());
+    this.filist.forEach( (fi: FI, idx: number) => fi.id = idx );
+  }
+
+  get(id: number): FI {
+    console.assert(<any>this.filist[id]);
+    return this.filist[id];
+  }
+  
+  byName(): FI[] {
+    return this.filist;
+  }
 }
 
-export function get(id): FI {
-  return filist[id];
-}
-
-export function byName(): FI[] {
-  return filist;
-}
+export var ficache = new FiCache();

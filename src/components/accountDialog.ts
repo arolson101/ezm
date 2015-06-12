@@ -6,9 +6,11 @@ import {Panel, Button, Input, Modal, Row, Col} from "react-bootstrap";
 import Icon = require("react-fa");
 import access = require("safe-access");
 import {t} from "../t";
-import * as ficache from "../ficache";
+import {ficache, FI} from "../ficache";
 import {XText, XSelect} from "./xeditable";
-import {Account, IAccount, AccountType, AccountType_t, Institution} from "../models/account";
+import {Account, IAccount} from "../models/account";
+import {AccountType, AccountType_t} from "../models/accountType";
+import {Institution} from "../models/institution";
 import {EnumEx} from "../enumEx";
 import {AccountStore} from "../accountStore";
 import {applyMixins} from "../mixins/applyMixins";
@@ -390,7 +392,7 @@ export class AccountDialog extends React.Component<Props, State> {
     var state = {institution: value};
     var newfi = ficache.get(value);
     
-    var initField = (stateKey: string, fiProp?: string | ((fi: ficache.FI) => string)) => {
+    var initField = (stateKey: string, fiProp?: string | ((fi: FI) => string)) => {
       fiProp = fiProp || stateKey;
       var getValue = (typeof fiProp === "function" ? fiProp : function(fi) { return access(fi, <string>fiProp); });
       if(!this.state[stateKey] || this.state[stateKey] === getValue(oldfi)) {
@@ -400,7 +402,7 @@ export class AccountDialog extends React.Component<Props, State> {
 
     initField("name");
     initField("web", "profile.siteURL");
-    initField("address", function(fi: ficache.FI) {
+    initField("address", function(fi: FI) {
       var address = "";
       if(fi && fi.profile) {
         if(fi.profile.address1) { address += fi.profile.address1 + "\n"; }

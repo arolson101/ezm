@@ -7,9 +7,9 @@ import React = require("react");
 //import {Input, ListGroup, ListGroupItem, OverlayTrigger, Popover, Table, Grid, Col} from "./factories";
 var {Input, ListGroup, ListGroupItem, OverlayTrigger, Popover, Table, Grid, Col} = require("react-bootstrap");
 import * as t from "./t";
-import * as ficache from "./ficache";
+import {ficache} from "./ficache";
 import {Sidebar} from "./components/sidebar";
-import * as db from "./db";
+import {db} from "./db";
 
 /*
 uwcu
