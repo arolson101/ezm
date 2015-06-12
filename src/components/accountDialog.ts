@@ -1,7 +1,7 @@
 /// <reference path="../project.d.ts"/>
 
 import clone = require("clone");
-import React = require("react");
+import React = require("react/addons");
 import {Panel, Button, Input, Modal, Row, Col} from "react-bootstrap";
 import Icon = require("react-fa");
 import access = require("safe-access");
@@ -11,7 +11,7 @@ import {XText, XSelect} from "./xeditable";
 import {Account, IAccount, AccountType, AccountType_t, Institution} from "../models/account";
 import {EnumEx} from "../enumEx";
 import {AccountStore} from "../accountStore";
-import {LinkedStateComponent} from "./linkedComponent";
+import {applyMixins} from "../mixins/applyMixins";
 
 var Keys = [
   "name",
@@ -67,8 +67,9 @@ interface State {
   password?: string;
  }
 
-export class AccountDialog extends LinkedStateComponent<Props, State> {
+export class AccountDialog extends React.Component<Props, State> {
   //mixins: [React.addons.LinkedStateMixin],
+  linkState: <T>(key: string) => React.ReactLink<T>;
   
   constructor(props?: Props) {
     super(props);
@@ -430,3 +431,5 @@ export class AccountDialog extends LinkedStateComponent<Props, State> {
     AccountStore.save(institution, accounts);
   }
 }
+
+applyMixins(AccountDialog, [React.addons.LinkedStateMixin]);

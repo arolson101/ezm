@@ -7,8 +7,9 @@ import {t} from "../t";
 import {AccountStore} from "../accountStore";
 import {AccountDisplay} from "./accountDisplay";
 import {Account, Institution} from "../models/account";
-//var SortableMixin = require("../mixins/sortable");
+import {SortableMixin} from "../mixins/sortable";
 import {AccountDialog} from "./accountDialog";
+import {applyMixins} from "../mixins/applyMixins";
 
 
 interface State {
@@ -81,3 +82,8 @@ export class Sidebar extends React.Component<{}, State> {
   }
   
 }
+
+applyMixins(Sidebar, [
+   Reflux.connect(AccountStore, "list"),
+   SortableMixin("root", $.extend({}, (<any>SortableMixin).DefaultProps)),
+]);

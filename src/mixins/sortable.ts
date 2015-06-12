@@ -8,7 +8,7 @@ var DefaultProps = {
 };
 
 
-function SortableMixin(rootRefName, props) {
+export function SortableMixin(rootRefName, props) {
   props = props || DefaultProps;
   return {
     componentDidMount: function() {
@@ -25,6 +25,5 @@ function SortableMixin(rootRefName, props) {
   };
 }
 
-SortableMixin.DefaultProps = DefaultProps;
+(<any>SortableMixin).DefaultProps = DefaultProps;
 
-module.exports = SortableMixin;
