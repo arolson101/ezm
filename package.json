@@ -26,7 +26,6 @@
     "react": "^0.13.3",
     "react-bootstrap": "^0.23.0",
     "react-fa": "^3.2.0",
-    "reflux": "^0.2.3",
     "safe-access": "^0.1.0",
     "sortablejs": "git://github.com/rubaxa/sortable",
     "string-hash": "^1.1.0",

@@ -1,13 +1,28 @@
 ///<reference path="project.d.ts"/>
 
+import {Actions} from "./actions";
+import {Flap} from "./flap";
 
 var i18n: I18nextStatic = require("i18next-client");
 
-export var t = i18n.t;
 
-export function init(): JQueryDeferred<void> {
-  return i18n.init({
-    resGetPath: 'locales/__ns__.__lng__.json'
-  });
+class TranslationStore extends Flap.Store<any> {
+  constructor() {
+    super();
+    this.listenTo(Actions.open, this.onOpen);
+  }
+  
+  onOpen() {
+    var res = i18n.init({
+      resGetPath: 'locales/__ns__.__lng__.json'
+    });
+    
+    if(res) {
+      return <Promise<any>><any>res.promise();
+    }
+  }
 }
 
+export var translationStore = new TranslationStore();
+
+export var t = i18n.t;

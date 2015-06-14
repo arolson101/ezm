@@ -24,7 +24,7 @@ export class Institution extends Updraft.Instance<number> {
     password: Text(),
   };
   static all: Updraft.Query<number, Institution>;
-  static get: (id: number) => Promise<Institution>;
+  static get(id: number): Promise<Institution> { throw new Error("overwritten"); }
   
   public dbid: number;
   public name: string;

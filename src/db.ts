@@ -4,45 +4,45 @@ import {Institution} from "./models/institution";
 import {Account} from "./models/account";
 
 
-interface OnOpenCallback {
-  (): Promise<any>;
-}
+// interface OnOpenCallback {
+//   (): Promise<any>;
+// }
 
 
-class Database {
-  Store: Updraft.Store;
-  openCallbacks: OnOpenCallback[];
+// class Database {
+//   Store: Updraft.Store;
+//   openCallbacks: OnOpenCallback[];
   
-  constructor() {
-    this.Store = new Updraft.Store();
-    this.Store.addClass(Account);
-    this.Store.addClass(Institution);
+//   constructor() {
+//     this.Store = new Updraft.Store();
+//     this.Store.addClass(Account);
+//     this.Store.addClass(Institution);
     
-    this.openCallbacks = [];
-  }
+//     this.openCallbacks = [];
+//   }
   
-  onOpen(callback: OnOpenCallback) {
-    this.openCallbacks.push(callback);
-  }
+//   onOpen(callback: OnOpenCallback) {
+//     this.openCallbacks.push(callback);
+//   }
 
   
-  open(): Promise<any> {
-    require("./models/account");
+//   open(): Promise<any> {
+//     require("./models/account");
     
-    var storeOptions = {
-      name: "EasyMoney"
-    }
+//     var storeOptions = {
+//       name: "EasyMoney"
+//     }
   
-    //this.Store.logSql = true;
-    return this.Store.open(storeOptions)
-    .then(() => this.callOpenCallbacks());
-  }
+//     //this.Store.logSql = true;
+//     return this.Store.open(storeOptions)
+//     .then(() => this.callOpenCallbacks());
+//   }
   
-  private callOpenCallbacks(): Promise<any> {
-    return Promise.all(
-      this.openCallbacks.map( callback => callback() )
-    );
-  }
-}
+//   private callOpenCallbacks(): Promise<any> {
+//     return Promise.all(
+//       this.openCallbacks.map( callback => callback() )
+//     );
+//   }
+// }
 
-export var db = new Database();
+// export var db = new Database();

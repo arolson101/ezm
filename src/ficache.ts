@@ -1,23 +1,29 @@
 /// <reference path="project.d.ts"/>
 
+import {Actions} from "./actions";
+import {Flap} from "./flap";
+
+
 export interface FI extends FinancialInstitution {
   id: number;
 }
 
-class FiCache {
-  private filist: FI[];
+
+class FiCache extends Flap.Store<any> {
+  filist: FI[];
   
   constructor() {
-    filist: require("filist");
+    super();
+    this.filist = require("filist");
+    this.listenTo(Actions.open, this.onOpen);
   }
-
-  init(): void {
-    this.filist = _.sortBy(this.filist, fi => fi.name.toLowerCase());
+  
+  onOpen() {
+    this.filist = _.sortBy(this.filist, (fi: FI) => fi.name.toLowerCase());
     this.filist.forEach( (fi: FI, idx: number) => fi.id = idx );
   }
-
+  
   get(id: number): FI {
-    console.assert(<any>this.filist[id]);
     return this.filist[id];
   }
   

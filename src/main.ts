@@ -9,7 +9,8 @@ var {Input, ListGroup, ListGroupItem, OverlayTrigger, Popover, Table, Grid, Col}
 import * as t from "./t";
 import {ficache} from "./ficache";
 import {Sidebar} from "./components/sidebar";
-import {db} from "./db";
+//import {db} from "./db";
+import {Actions} from "./actions";
 
 /*
 uwcu
@@ -290,14 +291,12 @@ function reportError(err) {
 }
 
 
+// force reference
+require("./stores/persistentStore");
 
 export function main() {
-  Promise.all([
-    t.init(),
-    ficache.init(),
-    db.open(),
-  ])
-  .then(asdf)
-  .catch(reportError);
-};
+  Actions.open()
+  .then(Actions.openCompleted)
+  .then(asdf);
+}
 

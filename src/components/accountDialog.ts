@@ -5,6 +5,7 @@ import React = require("react/addons");
 import {Panel, Button, Input, Modal, Row, Col} from "react-bootstrap";
 import Icon = require("react-fa");
 import access = require("safe-access");
+import {Actions} from "../actions";
 import {t} from "../t";
 import {ficache, FI} from "../ficache";
 import {XText, XSelect} from "./xeditable";
@@ -12,7 +13,6 @@ import {Account, IAccount} from "../models/account";
 import {AccountType, AccountType_t} from "../models/accountType";
 import {Institution} from "../models/institution";
 import {EnumEx} from "../enumEx";
-import {AccountStore} from "../accountStore";
 import {applyMixins} from "../mixins/applyMixins";
 
 var Keys = [
@@ -80,7 +80,7 @@ export class AccountDialog extends React.Component<Props, State> {
     this.state = {
       accounts: clone(this.props.accounts) || [],
       addAccountName: "",
-      addAccountNumber: 0,
+      addAccountNumber: null,
       addAccountType: t("accountDialog.add.typePlaceholder"),
       name: null,
     };
@@ -276,7 +276,7 @@ export class AccountDialog extends React.Component<Props, State> {
       var typeDisplay = AccountType_t(acct.type);
       return (
         React.createElement(Row, {key: acct.number}, [
-          React.createElement(Col, {xs: 1},
+          React.createElement(Col, {xs: 1, key: "eye"},
             React.createElement(Button, <ButtonAttributes>{
               bsStyle: "link",
               onClick: this.toggleVis.bind(this, acct),
@@ -285,20 +285,20 @@ export class AccountDialog extends React.Component<Props, State> {
               React.createElement(Icon, {name: acct.visible ? "eye" : "eye-slash"})
             )
           ),
-          React.createElement(Col, {xs: 2},
+          React.createElement(Col, {xs: 2, key: "type"},
             XSelect({source: accountTypeOptions},
               typeDisplay 
             )
           ),
-          React.createElement(Col, {xs: 3},
+          React.createElement(Col, {xs: 3, key: "number"},
             React.createElement(Button, {bsStyle: "link", disabled: true}, acct.number)
           ),
-          React.createElement(Col, {xs: 3},
+          React.createElement(Col, {xs: 3, key: "name"},
             XText({title: t("accountDialog.add.namePlaceholder"), validate: ValidateNotEmpty},
               acct.name
             )
           ),
-          React.createElement(Col, {xs: 1},
+          React.createElement(Col, {xs: 1, key: "remove"},
             React.createElement(Button, {bsStyle: "link", onClick: null},
               "Remove"
             )
@@ -313,7 +313,7 @@ export class AccountDialog extends React.Component<Props, State> {
       React.DOM.option({key: name, value: name}, AccountType_t(val))
     );
     var btnEnabled = (this.state.addAccountType !== t("accountDialog.add.typePlaceholder")) &&
-                      (this.state.addAccountNumber !== 0) &&
+                      (this.state.addAccountNumber) &&
                       (this.state.addAccountName !== "");
     return (
       React.createElement(Row, null, [
@@ -322,6 +322,7 @@ export class AccountDialog extends React.Component<Props, State> {
             className: "form-control",
             valueLink: this.linkState('addAccountType')
             },
+            React.DOM.option({disabled: true}, t("accountDialog.add.typePlaceholder")),
             accountTypeOptions
           )
         ),
@@ -342,7 +343,7 @@ export class AccountDialog extends React.Component<Props, State> {
           })
         ),
         React.createElement(Col, {xs: 1, key: "add"},
-          React.createElement(Button, {disabled: !btnEnabled, onClick: this.addAccount}, t("accountDialog.addAccount"))
+          React.createElement(Button, {disabled: !btnEnabled, onClick: () => this.addAccount()}, t("accountDialog.addAccount"))
         )
       ])
     );
@@ -358,7 +359,7 @@ export class AccountDialog extends React.Component<Props, State> {
     
     this.setState({
       addAccountType: t("accountDialog.add.typePlaceholder"),
-      addAccountNumber: 0,
+      addAccountNumber: null,
       addAccountName: "",
     });
   }
@@ -430,7 +431,7 @@ export class AccountDialog extends React.Component<Props, State> {
     
     var accounts = this.state.accounts.map(account => new Account(account));
     
-    AccountStore.save(institution, accounts);
+    Actions.saveAccount({institution, accounts});
   }
 }
 

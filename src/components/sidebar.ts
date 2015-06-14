@@ -4,14 +4,14 @@ import {Button, ListGroupItem, ModalTrigger} from "react-bootstrap";
 import Icon = require("react-fa");
 
 import {t} from "../t";
-import {AccountStore} from "../accountStore";
+import {accountStore} from "../stores/accountStore";
 import {AccountDisplay} from "./accountDisplay";
 import {Account} from "../models/account";
 import {Institution} from "../models/institution";
 import {SortableMixin} from "../mixins/sortable";
 import {AccountDialog} from "./accountDialog";
 import {applyMixins} from "../mixins/applyMixins";
-
+import {Flap} from "../flap";
 
 interface State {
   active: string;
@@ -24,15 +24,17 @@ export class Sidebar extends React.Component<{}, State> {
 //    Reflux.connect(AccountStore, "list"),
 //    SortableMixin("root", $.extend({}, SortableMixin.DefaultProps)),
 //  ],
-  
+
+  linkState: <P>(store: Flap.Store<P>, state: string) => void;
+  listenTo: <P>(action: Flap.Action<P>, callback: Flap.Listener<P>) => void;
+
   constructor() {
     super();
     this.state = {
       active: "home",
-      accounts: AccountStore.getDefaultData(),
+      accounts: accountStore.getDefaultData(),
     };
   }
-
 
   render() {
     var selectionProps = function(id) {
@@ -81,10 +83,10 @@ export class Sidebar extends React.Component<{}, State> {
   onSetActive(eventKey) {
     this.setState(<any>{active: eventKey});
   }
-  
 }
 
 applyMixins(Sidebar, [
-   Reflux.connect(AccountStore, "list"),
-   SortableMixin("root", $.extend({}, (<any>SortableMixin).DefaultProps)),
+// Reflux.connect(<Reflux.Store<any>><any>accountStore, "accounts"),
+  Flap.ReactMixin(),
+  SortableMixin("root", $.extend({}, (<any>SortableMixin).DefaultProps)),
 ]);
