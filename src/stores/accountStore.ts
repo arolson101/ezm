@@ -13,7 +13,7 @@ class AccountStore extends Flap.Store<Account[]> {
   constructor() {
     super();
     this.accounts = [];
-    this.listenTo(Actions.openCompleted, this.onOpenCompleted);
+    this.listenTo(Actions.open, this.onOpenCompleted);
     this.listenTo(Actions.saveAccount, this.onSaveAccount);
   }
   

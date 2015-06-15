@@ -295,8 +295,8 @@ function reportError(err) {
 require("./stores/persistentStore");
 
 export function main() {
-  Actions.open()
-  .then(Actions.openCompleted)
+  Actions.startup()
+  .then(Actions.open)
   .then(asdf);
 }
 

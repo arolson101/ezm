@@ -12,11 +12,11 @@ class PersistentStore extends Flap.Store<any> {
 
 	constructor() {
 		super();
-		this.listenTo(Actions.open, this.onOpen);
+		this.listenTo(Actions.startup, this.onStartup);
 		this.listenTo(Actions.persist, this.onPersist);
 	}
 
-	onOpen() {
+	onStartup() {
 		this.updraftStore = new Updraft.Store();
 
 		this.updraftStore.addClass(Institution);

@@ -13,10 +13,10 @@ export interface SaveAccountParams {
 
 export var Actions = {
 	/** open a database */
-	open: Flap.createAction(),
+	startup: Flap.createAction(),
 	
 	/** aggregate signal that all systems required for opening have completed */
-	openCompleted: Flap.createAction(),
+	open: Flap.createAction(),
 	
 	/** save changes to an account or institution */
 	saveAccount: Flap.createAction<SaveAccountParams>(),

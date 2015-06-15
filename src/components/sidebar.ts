@@ -10,7 +10,7 @@ import {Account} from "../models/account";
 import {Institution} from "../models/institution";
 import {SortableMixin} from "../mixins/sortable";
 import {AccountDialog} from "./accountDialog";
-import {applyMixins} from "../mixins/applyMixins";
+import {mixin} from "../mixins/applyMixins";
 import {Flap} from "../flap";
 
 interface State {
@@ -18,7 +18,10 @@ interface State {
   accounts: Account[];
 }
 
-
+@mixin(
+  Flap.ReactMixin(), 
+  SortableMixin("root", $.extend({}, (<any>SortableMixin).DefaultProps))
+)
 export class Sidebar extends React.Component<{}, State> {
 //  mixins: [
 //    Reflux.connect(AccountStore, "list"),
@@ -84,9 +87,3 @@ export class Sidebar extends React.Component<{}, State> {
     this.setState(<any>{active: eventKey});
   }
 }
-
-applyMixins(Sidebar, [
-// Reflux.connect(<Reflux.Store<any>><any>accountStore, "accounts"),
-  Flap.ReactMixin(),
-  SortableMixin("root", $.extend({}, (<any>SortableMixin).DefaultProps)),
-]);

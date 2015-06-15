@@ -13,11 +13,19 @@ function callboth(fcn1: Function, fcn2: Function) {
     }
 }
 
-export function applyMixins(derivedCtor: any, baseCtors: any[]) {
+
+function applyMixins(derivedCtor: any, baseCtors: any[]) {
     baseCtors.forEach(baseCtor => {
         var src = typeof baseCtor === 'function' ? baseCtor.prototype : baseCtor;
         Object.getOwnPropertyNames(src).forEach(name => {
             derivedCtor.prototype[name] = callboth(derivedCtor.prototype[name], src[name]);
         })
     }); 
+}
+
+
+export function mixin(...derived: any[]) {
+    return function(target: Function) {
+      applyMixins(target, derived);
+    }
 }

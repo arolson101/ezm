@@ -50,8 +50,7 @@ export module Flap {
     act.trigger = <ActionFunction<P>>function(params?: P): Promise<any> {
       return new Promise(function(resolve, reject) {
         setTimeout(function() {
-          var results = subscribers.slice().map( (sub) => sub(params) );
-          Promise.all(results)
+          Promise.all( subscribers.slice().map( (sub) => sub(params) ) )
           .then(resolve, reject);
         });
       });
@@ -70,7 +69,7 @@ export module Flap {
         subscribers.splice(idx, 1);
       }
     }
-    
+      
     return act;
   }
   

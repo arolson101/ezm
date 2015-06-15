@@ -13,7 +13,7 @@ import {Account, IAccount} from "../models/account";
 import {AccountType, AccountType_t} from "../models/accountType";
 import {Institution} from "../models/institution";
 import {EnumEx} from "../enumEx";
-import {applyMixins} from "../mixins/applyMixins";
+import {mixin} from "../mixins/applyMixins";
 
 var Keys = [
   "name",
@@ -67,10 +67,11 @@ interface State {
   
   username?: string;
   password?: string;
- }
+}
 
+
+@mixin(React.addons.LinkedStateMixin)
 export class AccountDialog extends React.Component<Props, State> {
-  //mixins: [React.addons.LinkedStateMixin],
   linkState: <T>(key: string) => React.ReactLink<T>;
   
   constructor(props?: Props) {
@@ -423,7 +424,10 @@ export class AccountDialog extends React.Component<Props, State> {
     this.setState(state);
   }
   
-  onSubmit = () => {
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.onRequestHide();
+    
     var institution = new Institution();
     Keys.forEach(key => {
       institution[key] = this.state[key];
@@ -434,5 +438,3 @@ export class AccountDialog extends React.Component<Props, State> {
     Actions.saveAccount({institution, accounts});
   }
 }
-
-applyMixins(AccountDialog, [React.addons.LinkedStateMixin]);

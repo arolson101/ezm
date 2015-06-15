@@ -9,10 +9,10 @@ var i18n: I18nextStatic = require("i18next-client");
 class TranslationStore extends Flap.Store<any> {
   constructor() {
     super();
-    this.listenTo(Actions.open, this.onOpen);
+    this.listenTo(Actions.startup, this.onStartup);
   }
   
-  onOpen() {
+  onStartup() {
     var res = i18n.init({
       resGetPath: 'locales/__ns__.__lng__.json'
     });
