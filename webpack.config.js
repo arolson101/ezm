@@ -14,6 +14,7 @@ module.exports = {
     [
       "bootstrap/dist/css/bootstrap.min.css",
       "select2/dist/css/select2.css",
+      "react-ladda/node_modules/ladda/dist/ladda-themeless.min.css",
       "x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css",
       
       "bootstrap",
@@ -22,12 +23,17 @@ module.exports = {
       "filist",
       "i18next-client",
       "jquery",
+      // "ladda/dist/spin.min.js",
+      // "ladda/dist/ladda.min.js",
+      //"ladda",
       "lodash",
       //"newforms-bootstrap",
+      "ofx4js",
       "react",
       "react/addons",
       "react-bootstrap",
       "react-fa",
+      "react-ladda",
       "safe-access",
       "select2",
       "string-hash",
@@ -94,6 +100,7 @@ module.exports = {
       "React": "react/addons",
       "ReactBootstrap": "react-bootstrap",
       "Updraft": "updraft",
+      "ofx4js": "ofx4js",
     }),
   ],
   

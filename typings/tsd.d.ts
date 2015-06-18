@@ -3,6 +3,7 @@
 /// <reference path="jquery/jquery.d.ts" />
 /// <reference path="react/react-addons.d.ts" />
 /// <reference path="react-bootstrap/react-bootstrap.d.ts" />
+/// <reference path="react-ladda/react-ladda.d.ts" />
 /// <reference path="lodash/lodash.d.ts" />
 /// <reference path="x-editable/x-editable.d.ts" />
 /// <reference path="clone/clone.d.ts" />

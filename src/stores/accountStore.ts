@@ -46,7 +46,7 @@ class AccountStore extends Flap.Store<Account[]> {
 
     var param = [params.institution, ...params.accounts];
     Actions.persist(param)
-      .then(this.loadData);
+      .then(() => this.loadData());
   }
   
   // onAddInstitution: function(newInstitution) {
@@ -61,7 +61,7 @@ class AccountStore extends Flap.Store<Account[]> {
   //   console.log("onAddAccount", newAccount);
   // },
   
-  getDefaultData() {
+  data() {
     return this.accounts;
   }
 }

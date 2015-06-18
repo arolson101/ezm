@@ -1,6 +1,6 @@
 /// <reference path="../project.d.ts"/>
 
-import {Button, ListGroupItem, ModalTrigger} from "react-bootstrap";
+import {Button, ListGroupItem, ModalTrigger, Navbar, Nav, NavItem, DropdownButton} from "react-bootstrap";
 import Icon = require("react-fa");
 
 import {t} from "../t";
@@ -14,8 +14,8 @@ import {mixin} from "../mixins/applyMixins";
 import {Flap} from "../flap";
 
 interface State {
-  active: string;
-  accounts: Account[];
+  active?: string;
+  accounts?: Account[];
 }
 
 @mixin(
@@ -23,10 +23,6 @@ interface State {
   SortableMixin("root", $.extend({}, (<any>SortableMixin).DefaultProps))
 )
 export class Sidebar extends React.Component<{}, State> {
-//  mixins: [
-//    Reflux.connect(AccountStore, "list"),
-//    SortableMixin("root", $.extend({}, SortableMixin.DefaultProps)),
-//  ],
 
   linkState: <P>(store: Flap.Store<P>, state: string) => void;
   listenTo: <P>(action: Flap.Action<P>, callback: Flap.Listener<P>) => void;
@@ -35,21 +31,21 @@ export class Sidebar extends React.Component<{}, State> {
     super();
     this.state = {
       active: "home",
-      accounts: accountStore.getDefaultData(),
     };
+    this.linkState(accountStore, "accounts");
   }
 
   render() {
-    var selectionProps = function(id) {
+    var selectionProps = (id: any): ListGroupItemAttributes => {
       var active = (id === this.state.active);
       return {
         key: id,
         eventKey: id,
         active: active,
-        onClick: (active ? null : this.onSetActive),
+        onClick: (active ? null : () => this.onSetActive(id)),
         style: {cursor: (active ? "default" : "pointer")},
       };
-    }.bind(this);
+    };
   
     var accounts = this.state.accounts.map((account) => {
       return (
@@ -62,6 +58,25 @@ export class Sidebar extends React.Component<{}, State> {
       <Tooltip>{t("sidebar.addAccountTooltip")}</Tooltip>
     );
 */
+
+    // return (
+    //   //React.createElement(Navbar, {brand: "UWCU"},
+    //     React.createElement(Nav, {className: "bs-docs-sidebar"},
+    //       React.createElement(NavItem, selectionProps("home"), React.createElement(Icon, {name: "home"}), " ", t("sidebar.home")),
+    //       React.createElement(Nav, null,  
+    //         React.createElement(NavItem, null, "UWCU"),
+    //         React.createElement(Nav, null,
+    //           React.createElement(NavItem, null, "child1" ),
+    //           React.createElement(NavItem, null, "child2" )
+    //         )
+    //       )
+    //         // , {title: "UWCU", navItem: true}, accounts),
+          
+    //       // React.createElement(NavItem, selectionProps("budget"), React.createElement(Icon, {name: "area-chart"}), " ", t("sidebar.budget")),
+    //       // React.createElement(NavItem, selectionProps("calendar"), React.createElement(Icon, {name: "calendar"}), " ", t("sidebar.calendar"))
+    //     ) 
+    //   //)
+    // );
     
     return (
       React.DOM.div(null, 

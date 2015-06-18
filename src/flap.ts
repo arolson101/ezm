@@ -151,7 +151,12 @@ export module Flap {
       _deleters: new Array<ActionDeleter>(),
       
       linkState: function<P>(store: Store<P>, state: string): void {
-        this.setState({[state]: store.data()});
+        //Note: This method (isMounted) is not available on ES6 class components that extend React.Component. It may be removed entirely in a future version of React.
+        // if(this.isMounted()) {
+        //   this.setState({[state]: store.data()});
+        // } else {
+          this.state[state] = store.data();
+        // }
         this.listenTo(store, (params: P) => {
           this.setState({[state]: params});
         });

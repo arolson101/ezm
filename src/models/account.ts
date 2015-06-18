@@ -12,9 +12,8 @@ export interface IAccount {
   institution?: Institution;
   name: string;
   type: AccountType;
+  number: string;
   visible: boolean;
-  
-  number: number;
 }
 
 
@@ -35,7 +34,7 @@ export class Account extends Updraft.Instance<number> implements IAccount {
   public institution: Institution;
   public name: string;
   public type: AccountType;
-  public number: number;
+  public number: string;
   public visible: boolean;
   
   assignId() {

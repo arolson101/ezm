@@ -2,9 +2,10 @@
 
 import clone = require("clone");
 import React = require("react/addons");
-import {Panel, Button, Input, Modal, Row, Col} from "react-bootstrap";
+import {Alert, Panel, Button, Input, Label, Modal, Row, Col} from "react-bootstrap";
 import Icon = require("react-fa");
 import access = require("safe-access");
+import LaddaButton = require('react-ladda');
 import {Actions} from "../actions";
 import {t} from "../t";
 import {ficache, FI} from "../ficache";
@@ -14,6 +15,8 @@ import {AccountType, AccountType_t} from "../models/accountType";
 import {Institution} from "../models/institution";
 import {EnumEx} from "../enumEx";
 import {mixin} from "../mixins/applyMixins";
+import {readAccountProfiles} from "../online/readAccountProfiles";
+
 
 var Keys = [
   "name",
@@ -49,7 +52,7 @@ interface Props extends ModalAttributes {
 interface State {
   accounts?: IAccount[];
   addAccountName?: string;
-  addAccountNumber?: number;
+  addAccountNumber?: string;
   addAccountType?: string;
 
   name?: string;
@@ -67,6 +70,10 @@ interface State {
   
   username?: string;
   password?: string;
+  
+  gettingAccounts?: boolean;
+  gettingAccountsError?: string;
+  gettingAccountsSuccess?: number;
 }
 
 
@@ -84,6 +91,9 @@ export class AccountDialog extends React.Component<Props, State> {
       addAccountNumber: null,
       addAccountType: t("accountDialog.add.typePlaceholder"),
       name: null,
+      gettingAccounts: false,
+      gettingAccountsError: null,
+      gettingAccountsSuccess: 0,
     };
     Keys.forEach( key =>
       this.state[key] = (typeof(src[key]) === "undefined" ? "" : src[key])
@@ -200,8 +210,13 @@ export class AccountDialog extends React.Component<Props, State> {
   
   renderOnlineFields(inputClasses) {
     if(this.state.online) {
+      var canGetAccounts: boolean = (
+        this.state.ofx != "" && 
+        this.state.username != "" && 
+        this.state.password != ""
+      );
       return (
-        React.DOM.div({key: "onlineFields"}, [
+        React.DOM.div({key: "onlineFields"},
           React.createElement(Panel, {key: "ofx", header: t("accountDialog.ofxInfo")}, [
             React.createElement(Input, _.merge({
               key: "fid",
@@ -260,12 +275,33 @@ export class AccountDialog extends React.Component<Props, State> {
             React.createElement(Row, null,
               React.createElement(Col, {xs: 12},
                 React.DOM.span({className:"pull-right"},
-                  React.createElement(Button, null, t("accountDialog.getAccountList"))
+                  React.createElement(LaddaButton, {active:this.state.gettingAccounts},
+                    React.createElement(Button, {disabled: !canGetAccounts, onClick: () => this.onGetAccountList()}, t("accountDialog.getAccountList"))
+                  )
                 )
               ) 
-            ) 
+            )
           ),
-        ])
+          this.state.gettingAccountsSuccess > 0
+            ? React.createElement(Alert, {
+                  bsStyle: "success",
+                  onDismiss: () => this.setState({gettingAccountsSuccess: 0}),
+                  dismissAfter: 2000
+              },
+              React.DOM.h4(null, t("accountDialog.successGettingAccounts")),
+              React.DOM.p(null, t("accountDialog.successGettingAccountsMessage", {numAccounts: this.state.gettingAccountsSuccess}))
+            )
+            : null,
+          this.state.gettingAccountsError
+            ? React.createElement(Alert, {
+                  bsStyle: "danger",
+                  onDismiss: () => this.setState({gettingAccountsError: null}),
+                },
+                React.DOM.h4(null, t("accountDialog.errorGettingAccounts")), 
+                React.DOM.p(null, this.state.gettingAccountsError)
+              )
+            : null
+        )
       );
     }
   }
@@ -314,7 +350,7 @@ export class AccountDialog extends React.Component<Props, State> {
       React.DOM.option({key: name, value: name}, AccountType_t(val))
     );
     var btnEnabled = (this.state.addAccountType !== t("accountDialog.add.typePlaceholder")) &&
-                      (this.state.addAccountNumber) &&
+                      (this.state.addAccountNumber !== "") &&
                       (this.state.addAccountName !== "");
     return (
       React.createElement(Row, null, [
@@ -362,6 +398,43 @@ export class AccountDialog extends React.Component<Props, State> {
       addAccountType: t("accountDialog.add.typePlaceholder"),
       addAccountNumber: null,
       addAccountName: "",
+    });
+  }
+  
+  onGetAccountList() {
+    function convAccountType(acctType: ofx4js.domain.data.banking.AccountType): AccountType {
+      var str = ofx4js.domain.data.banking.AccountType[acctType];
+      return AccountType[str];
+    }
+    
+    this.setState({
+      gettingAccounts: true, 
+      gettingAccountsSuccess: 0, 
+      gettingAccountsError: null
+    });
+
+    readAccountProfiles({
+      name: this.state.name,
+      fid: this.state.fid,
+      org: this.state.org,
+      ofx: this.state.ofx,
+      username: this.state.username,
+      password: this.state.password
+    })
+    .then((accounts: IAccount[]) => {
+      var resolvedAccounts = _.union(this.state.accounts, accounts);
+      resolvedAccounts = _.uniq(resolvedAccounts, account => account.number);
+      this.setState({
+        gettingAccounts: false,
+        gettingAccountsSuccess: accounts.length,
+        accounts: resolvedAccounts
+      });
+    })
+    .catch((err) => {
+      this.setState({
+        gettingAccounts: false,
+        gettingAccountsError: err.toString()
+      });
     });
   }
   

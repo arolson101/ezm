@@ -5,6 +5,8 @@ import {t} from "../t";
 export enum AccountType {
   CHECKING,
   SAVINGS,
+  MONEYMRKT,
+  CREDITLINE,
   CREDITCARD,
 }
 

@@ -5,6 +5,8 @@
   "AccountTypes": {
     "CHECKING": "Checking",
     "SAVINGS": "Savings",
+    "MONEYMRKT": "Money Market",
+    "CREDITLINE": "Credit Line",
     "CREDITCARD": "Credit Card"
   },
   
@@ -53,6 +55,9 @@
     "passwordPlaceholder": "",
     "passwordHelp": "",
     "getAccountList": "Get account list from server",
+    "errorGettingAccounts": "Error Getting Accounts",
+    "successGettingAccounts": "Success",
+    "successGettingAccountsMessage": "Found __numAccounts__ accounts",
     "toggleVisTooltip": "Show or hide account from sidebar",
     "addAccount": "Add",
     "add": {
