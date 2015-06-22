@@ -13,6 +13,7 @@ declare module "react-bootstrap"
 	var Alert:React.ComponentClass<AlertAttributes>;
 	var Badge:React.ComponentClass<BadgeAttributes>;
 	var Button:React.ComponentClass<ButtonAttributes>;
+	var ButtonInput:React.ComponentClass<ButtonAttributes>;
 	var ButtonGroup:React.ComponentClass<ButtonGroupAttributes>;
 	var ButtonToolbar:React.ComponentClass<ReactBootstrapAttributes>;
 	var Carousel:React.ComponentClass<CarouselAttributes>;

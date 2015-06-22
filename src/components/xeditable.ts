@@ -1,8 +1,7 @@
  /// <reference path="../project.d.ts"/>
-import React = require("react");
 
 interface Props extends React.Props<any>, XEditable.Options {
-    onSave?: () => void;
+    onSave?: (e, params) => void;
 }
 
 
@@ -22,14 +21,14 @@ class XEditableClass extends React.Component<Props, {}> {
         var $a = $(React.findDOMNode(this.refs["a"]));
         this.props.unsavedclass = null;
         $a.editable(this.props);
-        $a.on('save', this.onSave);
+        $a.on('save', (e, params) => this.onSave(e, params));
     }
 
-    onSave(/*e, params*/) {
+    onSave(e, params) {
         var $a = $(React.findDOMNode(this.refs["a"]));
         $a.removeClass('editable-unsaved');
         if(this.props.onSave) {
-            this.props.onSave();
+            this.props.onSave(e, params);
         }
     }
 }

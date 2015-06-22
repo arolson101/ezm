@@ -8,19 +8,31 @@ var DefaultProps = {
 };
 
 
-export function SortableMixin(rootRefName, props) {
+export function SortableMixin(rootRefName, props?) {
   props = props || DefaultProps;
+  
   return {
+    _sortable: null,
+    _sortableEnabled: true,
+
     componentDidMount: function() {
-      this._sortable = SortableJS.create(this.refs[rootRefName].getDOMNode(), props);
+      if(this._sortableEnabled) {
+        var domNode = React.findDOMNode(this.refs[rootRefName]);
+        this._sortable = SortableJS.create(domNode, props);
+      }
     },
 
     componentWillUnmount: function () {
-      this._sortable.destroy();
+      if(this._sortable) {
+        this._sortable.destroy();
+      }
     },
     
     enableSort: function(enabled) {
-      this._sortable.option("disabled", !enabled);
+      this._sortableEnabled = enabled;
+      if(this._sortable) {
+        this._sortable.option("disabled", !enabled);
+      }
     }
   };
 }

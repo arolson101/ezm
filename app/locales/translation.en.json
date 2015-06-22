@@ -68,5 +68,11 @@
     "validateNotEmpty": "Cannot be empty",
     "save": "Save",
     "close": "Cancel"
+  },
+  
+  "easyList": {
+    "valueExists": "Must be unique",
+    "emptyValue": "Must be set",
+    "invalidValueTitle": "Error"
   }
 }

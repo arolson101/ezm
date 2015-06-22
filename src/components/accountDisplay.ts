@@ -2,6 +2,7 @@
 
 import {ListGroupItem} from "react-bootstrap";
 import {Account} from "../models/account";
+import React = require("react");
 
 //var DragHandle = require("./dragHandle");
 
