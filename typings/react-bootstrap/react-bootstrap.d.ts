@@ -229,12 +229,12 @@ interface OverlayAttributes extends React.DOMAttributes
 interface ModalTriggerAttributes extends OverlayAttributes
 {
 	//change to 'any'?
-	modal: React.Factory<ModalAttributes>
+	modal: any; //React.Factory<ModalAttributes>
 }
 
 interface ModalAttributes extends ReactBootstrapAttributes
 {
-	title: any;
+	title?: any;
 	/**
 	 * oneOf(['static', true, false]),
 	 */
@@ -242,7 +242,8 @@ interface ModalAttributes extends ReactBootstrapAttributes
 	keyboard?: boolean;
 	closeButton?:boolean;
 	animation?:boolean;
-	onRequestHide:()=>void;
+	onRequestHide?:()=>void;
+	trigger?: string;
 }
 interface ListGroupItemAttributes extends ReactBootstrapAttributes
 {
@@ -289,6 +290,11 @@ interface InputAttributes extends React.DOMAttributes
 	wrapperClassName?: string;
 	labelClassName?: string;
 	disabled?: boolean;
+	placeholder?: string;
+	defaultValue?: string;
+	valueLink?: any;
+	checkedLink?: any;
+	rows?: number;
 }
 interface GridAttributes extends React.DOMAttributes
 {

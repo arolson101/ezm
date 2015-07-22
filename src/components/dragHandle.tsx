@@ -15,7 +15,7 @@ export class DragHandle extends React.Component<Props, any> {
     var spanStyle = {
       color: "lightgray",
       cursor: "-webkit-grab",
-    
+
       // transition: "width " + transitionTime + "s ease-in-out",
       // overflow: "hidden",
       // float: "left",
@@ -23,9 +23,9 @@ export class DragHandle extends React.Component<Props, any> {
     };
 
     return (
-      React.DOM.span({style: spanStyle},
-        React.createElement(Icon, {name: "bars"})
-      )
+      <span style={spanStyle}>
+        <Icon name="bars"/>
+      </span>
     );
   }
 }

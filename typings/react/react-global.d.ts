@@ -135,6 +135,7 @@ declare module React {
         setState(f: (prevState: S, props: P) => S, callback?: () => any): void;
         setState(state: S, callback?: () => any): void;
         forceUpdate(): void;
+        render(): any;
         props: P;
         state: S;
         context: any;
@@ -768,4 +769,3 @@ declare module React {
         identifiedTouch(identifier: number): Touch;
     }
 }
-

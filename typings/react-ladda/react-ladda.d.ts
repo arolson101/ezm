@@ -7,11 +7,11 @@
 
 declare module "react-ladda" {
 	var LaddaButton:React.ComponentClass<LaddaButtonAttributes>;
-	
+
 	interface LaddaButtonAttributes {
-		
+		active?: boolean;
 	}
-	
+
 	export = LaddaButton;
 }
 

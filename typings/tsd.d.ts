@@ -10,3 +10,4 @@
 /// <reference path="react-fa/react-fa.d.ts" />
 /// <reference path="safe-access/safe-access.d.ts" />
 /// <reference path="select2/select2.d.ts" />
+/// <reference path="react-router/react-router.d.ts" />

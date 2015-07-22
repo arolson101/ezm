@@ -15,7 +15,7 @@ export interface Select2ChangeEvent extends JQueryEventObject {
 
 
 export class Select2 extends React.Component<Props, any> {
-	
+
 	render() {
 		return React.createElement(Input, $.extend({},
 			this.props,
@@ -27,7 +27,7 @@ export class Select2 extends React.Component<Props, any> {
 			this.props.children
 		);
 	}
-	
+
 	componentDidMount() {
     var input = (<any>this.refs["input"]).getInputDOMNode();
     var $input = $(input);
@@ -35,19 +35,19 @@ export class Select2 extends React.Component<Props, any> {
     $input.data("prev", $input.val());
     $input.change(this.onChange);
 	}
-	
+
 	onChange = (e: Select2ChangeEvent) => {
     var input = (<any>this.refs["input"]).getInputDOMNode();
     var $input = $(input);
 		e.value = input.options[input.selectedIndex].value;
     e.prev = $input.data("prev");
     $input.data("prev", $input.val());
-		
+
 		if(this.props.onChange2) {
 			this.props.onChange2(e);
 		}
 	}
-	
+
 	componentWillUnmount() {
     var input = (<any>this.refs["input"]).getInputDOMNode();
     var $input = $(input);

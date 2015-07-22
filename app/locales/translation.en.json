@@ -10,6 +10,11 @@
     "CREDITCARD": "Credit Card"
   },
   
+  "sbAdmin2": {
+    "toggleNav": "Toggle navigation",
+    "brand": "SB Admin v2.0"
+  },
+  
   "sidebar": {
     "home": "Home",
     "accounts": "Accounts",

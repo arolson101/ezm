@@ -7,13 +7,9 @@ interface Props extends React.Props<any>, XEditable.Options {
 
 class XEditableClass extends React.Component<Props, {}> {
     render() {
-        return React.DOM.a(
-            {
-                href: "#",
-                ref: "a"
-            },
+        return <a href="#" ref="a">
             this.props.children
-        );
+        </a>;
         //return <a href="#" ref="a" success={this.onSuccess}>{this.props.children}</a>;
     }
 

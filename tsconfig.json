@@ -1,5 +1,5 @@
 {
-    "version": "1.5.0-alpha",
+    "version": "1.6",
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
@@ -9,6 +9,8 @@
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
+        "jsx": "react",
+        "experimentalDecorators": true,
         "outDir": "./temp"
     },
     "awesomeTypescriptLoaderOptions": {
@@ -17,23 +19,53 @@
     },
     "filesGlob": [
         "./**/*.ts",
+        "./**/*.tsx",
         "!./node_modules/**/*.ts"
     ],
     "files": [
-        "./src/accountStore.ts",
-        "./src/components/xeditable.ts",
+        "./src/actions.ts",
+        "./src/components/accountDisplay.ts",
+        "./src/components/accountList.ts",
+        "./src/components/easyList.ts",
+        "./src/components/metisMenu.ts",
+        "./src/components/select2.ts",
         "./src/db.ts",
+        "./src/enumEx.ts",
         "./src/ficache.ts",
+        "./src/flap.ts",
         "./src/main.ts",
+        "./src/mixins/applyMixins.ts",
+        "./src/mixins/sortable.ts",
         "./src/models/account.ts",
+        "./src/models/accountType.ts",
+        "./src/models/dbid.ts",
+        "./src/models/institution.ts",
+        "./src/online/readAccountProfiles.ts",
         "./src/project.d.ts",
+        "./src/stores/accountStore.ts",
+        "./src/stores/persistentStore.ts",
         "./src/t.ts",
+        "./typings/clone/clone.d.ts",
         "./typings/es6-promise/es6-promise.d.ts",
         "./typings/i18next/i18next.d.ts",
         "./typings/jquery/jquery.d.ts",
         "./typings/lodash/lodash.d.ts",
         "./typings/react-bootstrap/react-bootstrap.d.ts",
+        "./typings/react-fa/react-fa.d.ts",
+        "./typings/react-ladda/react-ladda.d.ts",
+        "./typings/react-router/react-router.d.ts",
+        "./typings/react/react-addons-global.d.ts",
+        "./typings/react/react-addons.d.ts",
+        "./typings/react/react-global.d.ts",
         "./typings/react/react.d.ts",
-        "./typings/tsd.d.ts"
+        "./typings/safe-access/safe-access.d.ts",
+        "./typings/select2/select2.d.ts",
+        "./typings/tsd.d.ts",
+        "./typings/x-editable/x-editable.d.ts",
+        "./src/components/accountDialog.tsx",
+        "./src/components/dragHandle.tsx",
+        "./src/components/navbarHeader.tsx",
+        "./src/components/sidebar.tsx",
+        "./src/components/xeditable.tsx"
     ]
 }
