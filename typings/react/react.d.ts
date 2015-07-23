@@ -379,6 +379,7 @@ declare module "react" {
         boxFlex?: number;
         boxFlexGroup?: number;
         columnCount?: number;
+        cursor?: string;
         flex?: number | string;
         flexGrow?: number;
         flexShrink?: number;
@@ -768,4 +769,3 @@ declare module "react" {
         identifiedTouch(identifier: number): Touch;
     }
 }
-

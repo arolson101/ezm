@@ -5,10 +5,10 @@ interface Props extends React.Props<any>, XEditable.Options {
 }
 
 
-class XEditableClass extends React.Component<Props, {}> {
+export class XEditable extends React.Component<Props, any> {
     render() {
         return <a href="#" ref="a">
-            this.props.children
+            {this.props.children}
         </a>;
         //return <a href="#" ref="a" success={this.onSuccess}>{this.props.children}</a>;
     }
@@ -30,19 +30,15 @@ class XEditableClass extends React.Component<Props, {}> {
 }
 
 
-export class XSelectClass extends XEditableClass {
-    constructor(props: Props) {
-        props.type = "select";
-        super(props);
+export class XSelect extends XEditable {
+    constructor(props?: Props) {
+        super(_.extend({}, props, { type: 'select' }));
     }
 }
 
-export class XTextClass extends XEditableClass {
-    constructor(props: Props) {
-        props.type = "text";
-        super(props);
+
+export class XText extends XEditable {
+    constructor(props?: Props) {
+        super(_.extend({}, props, { type: 'text' }));
     }
 }
-
-export var XSelect = React.createFactory(XSelectClass);
-export var XText = React.createFactory(XTextClass);

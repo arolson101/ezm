@@ -20,17 +20,17 @@ export class AccountList extends EasyList<IAccount> {
 			{
 				key: "visible",
 				defaultValue: true,
-				display: (acct: IAccount) => 
-	        React.createElement(Button, <ButtonAttributes>{
-	            bsStyle: "link",
-	            onClick: () => { acct.visible = !acct.visible; this.forceUpdate(); },
-	            title: t("accountDialog.toggleVisTooltip"),
-	          },
-	          React.createElement(Icon, {name: acct.visible ? "eye" : "eye-slash"})
-	        ),
+				display: (acct: IAccount) =>
+			        <Button
+			            bsStyle="link"
+			            onClick={() => { acct.visible = !acct.visible; this.forceUpdate(); }}
+			            title={t("accountDialog.toggleVisTooltip")}
+			          >
+			          <Icon name={acct.visible ? "eye" : "eye-slash"}/>
+			        </Button>,
 				input: InputType.None,
 			},
-			
+
 			{
 				key: "type",
 				defaultValue: "",
@@ -40,7 +40,7 @@ export class AccountList extends EasyList<IAccount> {
 				values: EnumEx.getValues<AccountType>(AccountType).map(type => AccountType_t(type)),
 				required: true,
 			},
-	
+
 			{
 				key: "name",
 				defaultValue: "",
@@ -50,7 +50,7 @@ export class AccountList extends EasyList<IAccount> {
 				unique: true,
 				required: true,
 			},
-	
+
 			{
 				key: "number",
 				defaultValue: "",

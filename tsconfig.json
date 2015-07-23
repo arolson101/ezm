@@ -24,11 +24,6 @@
     ],
     "files": [
         "./src/actions.ts",
-        "./src/components/accountDisplay.ts",
-        "./src/components/accountList.ts",
-        "./src/components/easyList.ts",
-        "./src/components/metisMenu.ts",
-        "./src/components/select2.ts",
         "./src/db.ts",
         "./src/enumEx.ts",
         "./src/ficache.ts",
@@ -63,8 +58,12 @@
         "./typings/tsd.d.ts",
         "./typings/x-editable/x-editable.d.ts",
         "./src/components/accountDialog.tsx",
+        "./src/components/accountDisplay.tsx",
+        "./src/components/accountList.tsx",
         "./src/components/dragHandle.tsx",
-        "./src/components/navbarHeader.tsx",
+        "./src/components/easyList.tsx",
+        "./src/components/metisMenu.tsx",
+        "./src/components/select2.tsx",
         "./src/components/sidebar.tsx",
         "./src/components/xeditable.tsx"
     ]

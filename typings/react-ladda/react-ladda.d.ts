@@ -15,7 +15,7 @@ declare module "react-ladda" {
 	export = LaddaButton;
 }
 
-interface ButtonAttributes extends React.DOMAttributes
+interface LaddaButtonAttributes extends React.DOMAttributes
 {
 	progress?:number;
 	color?:string;

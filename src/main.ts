@@ -4,7 +4,6 @@ require("./ezm.css");
 
 //var nav = require("./navigation");
 import React = require("react");
-//import {Input, ListGroup, ListGroupItem, OverlayTrigger, Popover, Table, Grid, Col} from "./factories";
 var {Input, ListGroup, ListGroupItem, OverlayTrigger, Popover, Table, Grid, Col} = require("react-bootstrap");
 import * as t from "./t";
 import {ficache} from "./ficache";
@@ -17,12 +16,12 @@ uwcu
   checking
   savings
   auto
-  
+
 nationwide advantage
 edvest
 citibank
 edward jones
-  
+
 fidelity
   401k
 */
@@ -136,14 +135,14 @@ var accountListData = [
 //        />
 //      );
 //    }.bind(this));
-//    
+//
 //    return <ListGroup>{items}</ListGroup>;
 //  },
-//  
+//
 //  onAccountClick: function(id) {
 //    this.setState({selectedAccountId: id});
 //  },
-//  
+//
 //  getSelectedAccountId: function() {
 //    return this.state.selectedAccountId;
 //  }
@@ -164,10 +163,10 @@ var accountListData = [
 //      </div>
 //    </ListGroupItem>;
 //  },
-//  
+//
 //  click: function() {
 //  },
-//  
+//
 //  componentDidMount: function() {
 //    // Set items' data, key name `items` required
 //    //this.setState({ items: this.props.items });
@@ -177,11 +176,11 @@ var accountListData = [
 //      ghostClass: "sortable-ghost",
 //    });
 //  },
-//  
+//
 //  componentWillUnmount: function () {
 //    this.sortable.destroy();
 //  },
-//  
+//
 //  onUpdate: function (/**Event*/evt) {
 //    console.log("onUpdate", evt);
 //    //var itemEl = evt.item;  // dragged HTMLElement
@@ -196,23 +195,23 @@ var accountListData = [
 //    Reflux.connect(AccountStore, "list"),
 //    React.addons.LinkedStateMixin
 //  ],
-//  
+//
 //  getInitialState: function() {
 //    return {
 //      text: 'hello',
 //    };
 //  },
-//  
+//
 //  componentDidMount: function() {
 //    // Set items' data, key name `items` required
 //    //this.setState({ items: this.props.items });
 //    this.sortable = Sortable.create(this.refs.root.getDOMNode(), {
 //      //handle: ".drag-handle"
 //      animation: 150,
-//      ghostClass: "sortable-ghost", 
+//      ghostClass: "sortable-ghost",
 //    });
 //  },
-//  
+//
 //  componentWillUnmount: function () {
 //    this.sortable.destroy();
 //  },
@@ -226,12 +225,12 @@ var accountListData = [
 //      //this.refs.editInput.getDOMNode().blur();
 //    }
 //  },
-//  
+//
 //  render: function() {
 //    var items = this.props.list.map(function(item, i) {
 //      return <Item key={item.id} item={item} index={i} {...this.movableProps}/>;
 //    }, this);
-//  
+//
 //    return (
 //      <div>
 //        <ListGroupItem ref="root">
@@ -274,7 +273,7 @@ function asdf() {
     //     </Col>
     //   </Grid>
     // `),
-    
+
      React.createElement(Grid, null,
        React.createElement(Col, {md: 4},
          React.createElement(Sidebar)
@@ -299,4 +298,3 @@ export function main() {
   .then(Actions.open)
   .then(asdf);
 }
-

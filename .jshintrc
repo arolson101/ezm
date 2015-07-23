@@ -19,11 +19,6 @@
     "smarttabs": true,
     "white": true,
     "globals": {
-      "_": false,
-      "$": false,
-      "jQuery": false,
-      "React": false,
-      "ReactBootstrap": false,
-      "Reflux": false
+      "$": false
     }
 }

@@ -1,7 +1,6 @@
 node_modules/
 old/
 sb-admin-2/
-temp/
 
 *.seed
 *.log
@@ -10,3 +9,4 @@ temp/
 *.out
 *.pid
 *.gz
+.DS_Store

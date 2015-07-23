@@ -398,7 +398,7 @@ interface AlertAttributes extends ReactBootstrapAttributes
 	onDismiss?: (e?:React.MouseEvent)=>void;
 	dismissAfter?: number;
 }
-interface ReactBootstrapAttributes extends React.DOMAttributes
+interface ReactBootstrapAttributes extends React.HTMLAttributes
 {
 	/**
 	 * Used internally in react-bootstrap

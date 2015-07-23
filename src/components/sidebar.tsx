@@ -20,8 +20,8 @@ interface State {
 }
 
 @mixin(
-  Flap.ReactMixin()
-  //SortableMixin("root", $.extend({}, (SortableMixin as any).DefaultProps))
+  Flap.ReactMixin(),
+  SortableMixin("root")
 )
 export class Sidebar extends React.Component<any, State> {
 
@@ -41,7 +41,6 @@ export class Sidebar extends React.Component<any, State> {
       var active = (id === this.state.active);
       return {
         key: id,
-        eventKey: id,
         active: active,
         onClick: (active ? null : () => this.onSetActive(id)),
         style: {cursor: (active ? "default" : "pointer")},
@@ -99,7 +98,7 @@ export class Sidebar extends React.Component<any, State> {
     );
   }
 
-  onSetActive(eventKey) {
-    this.setState({active: eventKey} as any);
+  onSetActive(id) {
+    this.setState({active: id});
   }
 }

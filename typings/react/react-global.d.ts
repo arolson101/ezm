@@ -380,6 +380,7 @@ declare module React {
         boxFlex?: number;
         boxFlexGroup?: number;
         columnCount?: number;
+        cursor?: string;
         flex?: number | string;
         flexGrow?: number;
         flexShrink?: number;

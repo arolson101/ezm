@@ -181,7 +181,7 @@ export class AccountDialog extends React.Component<Props, State> {
           <hr/>
 
           <Input label="--Accounts">
-            this.renderAccounts()
+            {this.renderAccounts()}
           </Input>
 
           <div key="footer" className="modal-footer">
@@ -357,7 +357,7 @@ export class AccountDialog extends React.Component<Props, State> {
 
     var initField = (stateKey: string, fiProp?: string | ((fi: FI) => string)) => {
       fiProp = fiProp || stateKey;
-      var getValue = (typeof fiProp === "function" ? fiProp : function(fi) { return access(fi, fiProp as string); });
+      var getValue: (fi: FI) => string = (typeof fiProp === "function" ? fiProp : function(fi) { return access(fi, fiProp as string); });
       if(!this.state[stateKey] || this.state[stateKey] === getValue(oldfi)) {
         state[stateKey] = getValue(newfi);
       }

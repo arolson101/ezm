@@ -12,10 +12,10 @@ interface Props extends ListGroupItemAttributes {
 }
 
 
-export class AccountDisplay extends React.Component<Props, {}> {
+export class AccountDisplay extends React.Component<Props, any> {
   render() {
     //var onClick = this.onClick;
-    
+
 /*
     if(this.props.isEditing) {
       style.cursor = "-webkit-grab";
@@ -24,12 +24,9 @@ export class AccountDisplay extends React.Component<Props, {}> {
 */
 
     return (
-      React.createElement(ListGroupItem, _.merge({bsSize: "small"}, this.props),
-        this.props.account.name
-      )
+      <ListGroupItem bsSize="small" {... this.props}>
+        {this.props.account.name}
+      </ListGroupItem>
     );
   }
 }
-
-
-//export var AccountDisplay = React.createFactory(AccountDisplayClass);
