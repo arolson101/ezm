@@ -2,28 +2,42 @@
 
 import {Button, ListGroupItem, ModalTrigger, Navbar, Nav, NavItem, DropdownButton} from "react-bootstrap";
 import Icon = require("react-fa");
+var Radium: any = require("radium");
 
 import {t} from "../t";
 import {accountStore} from "../stores/accountStore";
-import {AccountDisplay} from "./accountDisplay";
 import {Account} from "../models/account";
 import {Institution} from "../models/institution";
 import {SortableMixin} from "../mixins/sortable";
 import {AccountDialog} from "./accountDialog";
-import {MetisMenu} from "./metisMenu";
+import {MetisMenu, MetisMenuItem} from "./metisMenu";
 import {mixin} from "../mixins/applyMixins";
 import {Flap} from "../flap";
+import {Home} from "./home";
 
 interface State {
   active?: string;
   accounts?: Account[];
 }
 
+var RadiumNav = Radium(Nav);
+
+
 @mixin(
   Flap.ReactMixin(),
   SortableMixin("root")
 )
+@Radium
 export class Sidebar extends React.Component<any, State> {
+    static style = {
+      "@media (min-width: 768px)": {
+        marginLeft: -15,
+        zIndex: 1,
+        position: "absolute",
+        width: 250,
+        marginTop: 35
+      }
+    }
 
   linkState: <P>(store: Flap.Store<P>, state: string) => void;
   listenTo: <P>(action: Flap.Action<P>, callback: Flap.Listener<P>) => void;
@@ -47,11 +61,6 @@ export class Sidebar extends React.Component<any, State> {
       };
     };
 
-    var accounts = this.state.accounts.map((account) => {
-      return (
-        <AccountDisplay {... selectionProps(account.dbid)} account={account}/>
-      );
-    });
 
 /*
     var addButtonTooltip = (
@@ -79,7 +88,34 @@ export class Sidebar extends React.Component<any, State> {
     // );
 
     return (
-      <div>
+        <RadiumNav role="navigation" {... this.props} style={Sidebar.style}>
+          <div style={{paddingRight: 0, paddingLeft: 0}}>
+            <MetisMenu ref="root">
+                <MetisMenuItem title={t("sidebar.home")} href={Home.href} icon="home"/>
+
+                {this.state.accounts.map((account) => {
+                  return (
+                      <MetisMenuItem title={account.name} key={account.name}/>
+                    /*<AccountDisplay {... selectionProps(account.dbid)} account={account}/>*/
+                  );
+                })}
+
+                <MetisMenuItem title={t("sidebar.budget")} icon="area-chart"/>
+                <MetisMenuItem title={t("sidebar.calendar")} icon="calendar"/>
+                <MetisMenuItem title="Multi-Level Dropdown" icon="sitemap">
+                  <MetisMenuItem title="Second Level Item"/>
+                  <MetisMenuItem title="Second Level Item"/>
+                  <MetisMenuItem title="Third Level">
+                    <MetisMenuItem title="Third Level Item"/>
+                    <MetisMenuItem title="Third Level Item"/>
+                    <MetisMenuItem title="Third Level Item"/>
+                    <MetisMenuItem title="Third Level Item"/>
+                  </MetisMenuItem>
+                </MetisMenuItem>
+            </MetisMenu>
+        </div>
+      </RadiumNav>
+      /*<div>
         <ListGroupItem ref="root">
           <ListGroupItem {... selectionProps("home")}><Icon name="home"/>{" " + t("sidebar.home")}</ListGroupItem>
           {accounts}
@@ -94,7 +130,7 @@ export class Sidebar extends React.Component<any, State> {
             </Button>
           </ModalTrigger>
         </span>
-      </div>
+      </div>*/
     );
   }
 
