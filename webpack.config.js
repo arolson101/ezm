@@ -45,7 +45,7 @@ module.exports = {
       "updraft",
       "x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js",
     ],
-    app: "./main.ts",
+    app: "./index.ts",
   },
 
   output: {
