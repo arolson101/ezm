@@ -1,6 +1,6 @@
 /// <reference path="../project.d.ts"/>
 
-import {Button, ListGroupItem, ModalTrigger, Navbar, Nav, NavItem, DropdownButton} from "react-bootstrap";
+import {Button, ListGroupItem, ModalTrigger, Navbar, Nav, NavItem, DropdownButton, OverlayTrigger, Popover} from "react-bootstrap";
 import Icon = require("react-fa");
 var Radium: any = require("radium");
 
@@ -29,15 +29,15 @@ var RadiumNav = Radium(Nav);
 )
 @Radium
 export class Sidebar extends React.Component<any, State> {
-    static style = {
-      "@media (min-width: 768px)": {
-        marginLeft: -15,
-        zIndex: 1,
-        position: "absolute",
-        width: 250,
-        marginTop: 35
-      }
+  static style = {
+    "@media (min-width: 768px)": {
+      marginLeft: -15,
+      zIndex: 1,
+      position: "absolute",
+      width: 250,
+      marginTop: 35
     }
+  }
 
   linkState: <P>(store: Flap.Store<P>, state: string) => void;
   listenTo: <P>(action: Flap.Action<P>, callback: Flap.Listener<P>) => void;
@@ -88,31 +88,40 @@ export class Sidebar extends React.Component<any, State> {
     // );
 
     return (
-        <RadiumNav role="navigation" {... this.props} style={Sidebar.style}>
-          <div style={{paddingRight: 0, paddingLeft: 0}}>
-            <MetisMenu ref="root">
-                <MetisMenuItem title={t("sidebar.home")} href={Home.href} icon="home"/>
+      <RadiumNav role="navigation" {... this.props} style={Sidebar.style}>
+        <div style={{paddingRight: 0, paddingLeft: 0}}>
+          <MetisMenu ref="root">
+              <MetisMenuItem title={t("sidebar.home")} href={Home.href} icon="home"/>
 
-                {this.state.accounts.map((account) => {
-                  return (
-                      <MetisMenuItem title={account.name} key={account.name}/>
-                    /*<AccountDisplay {... selectionProps(account.dbid)} account={account}/>*/
-                  );
-                })}
+              <MetisMenuItem title="UWCU" image="http://uwcu.org/favicon.ico">
+              {this.state.accounts.map((account) => {
+                return (
+                  <MetisMenuItem href={Home.href} title={<div><i className="fa fa-credit-card"/> {" " + account.name}<span className="pull-right">$1234</span></div>} overlay={<Popover title='Popover bottom'><strong>Holy guacamole!</strong> Check this info.</Popover>}/>
+                  /*<AccountDisplay {... selectionProps(account.dbid)} account={account}/>*/
+                );
+              })}
+              </MetisMenuItem>
 
-                <MetisMenuItem title={t("sidebar.budget")} icon="area-chart"/>
-                <MetisMenuItem title={t("sidebar.calendar")} icon="calendar"/>
-                <MetisMenuItem title="Multi-Level Dropdown" icon="sitemap">
-                  <MetisMenuItem title="Second Level Item"/>
-                  <MetisMenuItem title="Second Level Item"/>
-                  <MetisMenuItem title="Third Level">
-                    <MetisMenuItem title="Third Level Item"/>
-                    <MetisMenuItem title="Third Level Item"/>
-                    <MetisMenuItem title="Third Level Item"/>
-                    <MetisMenuItem title="Third Level Item"/>
-                  </MetisMenuItem>
+              <MetisMenuItem title={t("sidebar.budget")} icon="area-chart" href="flot.html"/>
+              <MetisMenuItem title={t("sidebar.calendar")} icon="calendar"/>
+              <MetisMenuItem title="Multi-Level Dropdown" icon="sitemap">
+                <MetisMenuItem title="Second Level Item"/>
+                <MetisMenuItem title="Second Level Item"/>
+                <MetisMenuItem title="Third Level">
+                  <MetisMenuItem title="Third Level Item"/>
+                  <MetisMenuItem title="Third Level Item"/>
+                  <MetisMenuItem title="Third Level Item"/>
+                  <MetisMenuItem title="Third Level Item"/>
                 </MetisMenuItem>
-            </MetisMenu>
+              </MetisMenuItem>
+              <span className="pull-right" style={{marginTop: 5}}>
+                <ModalTrigger modal={<AccountDialog/>}>
+                  <Button bsStyle="link" title={t("sidebar.addAccountTooltip")}>
+                    <Icon name="plus"/>
+                  </Button>
+                </ModalTrigger>
+              </span>
+          </MetisMenu>
         </div>
       </RadiumNav>
       /*<div>

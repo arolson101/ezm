@@ -10,22 +10,22 @@ import {PageContent} from "./pageContent";
 
 
 class App extends React.Component<any, any> {
-    static style = {
-        backgroundColor: "#f8f8f8"
-    }
+  static style = {
+    backgroundColor: "#f8f8f8"
+  }
 
-    render() {
-        return (
-            <div style={App.style}>
-                <Navbar fluid brand='asdf' toggleNavKey={1}>
-                    <Sidebar eventKey={1}/>
-                </Navbar>
-                <PageContent {... this.state}>
-                    <RouteHandler/>
-                </PageContent>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div style={App.style}>
+        <Navbar fluid brand={t("appBrand")} toggleNavKey={1}>
+          <Sidebar eventKey={1}/>
+        </Navbar>
+        <PageContent {... this.state}>
+          <RouteHandler/>
+        </PageContent>
+      </div>
+    );
+  }
 }
 
 
@@ -33,11 +33,11 @@ class Blank extends React.Component<any, any> {
   render() {
     return (
       <div className="container-fluid">
-          <div className="row">
-              <div className="col-lg-12">
-                  <h1 className="page-header">Blank</h1>
-              </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <h1 className="page-header">Blank</h1>
           </div>
+        </div>
       </div>
     );
   }
@@ -47,11 +47,11 @@ class Blank2 extends React.Component<any, any> {
   render() {
     return (
       <div className="container-fluid">
-          <div className="row">
-              <div className="col-lg-12">
-                  <h1 className="page-header">Blank2</h1>
-              </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <h1 className="page-header">Blank2</h1>
           </div>
+        </div>
       </div>
     );
   }
@@ -62,11 +62,11 @@ class NotFound extends React.Component<any, any> {
   render() {
     return (
       <div className="container-fluid">
-          <div className="row">
-              <div className="col-lg-12">
-                  <h1 className="page-header">Not Found</h1>
-              </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <h1 className="page-header">Not Found</h1>
           </div>
+        </div>
       </div>
     );
   }

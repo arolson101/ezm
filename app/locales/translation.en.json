@@ -1,7 +1,9 @@
 {
+  "appBrand": "Easy Money",
+
   "RecentTransactions": "Recent Transactions 2",
   "Budget": "Budget",
-  
+
   "AccountTypes": {
     "CHECKING": "Checking",
     "SAVINGS": "Savings",
@@ -9,12 +11,12 @@
     "CREDITLINE": "Credit Line",
     "CREDITCARD": "Credit Card"
   },
-  
+
   "sbAdmin2": {
     "toggleNav": "Toggle navigation",
     "brand": "SB Admin v2.0"
   },
-  
+
   "sidebar": {
     "home": "Home",
     "accounts": "Accounts",
@@ -22,7 +24,7 @@
     "calendar": "Calendar",
     "addAccountTooltip": "Add account"
   },
-  
+
   "accountDialog": {
     "addTitle": "Add Accounts",
     "editTitle": "Edit Accounts",
@@ -74,7 +76,7 @@
     "save": "Save",
     "close": "Cancel"
   },
-  
+
   "easyList": {
     "valueExists": "Must be unique",
     "emptyValue": "Must be set",

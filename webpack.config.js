@@ -67,6 +67,7 @@ module.exports = {
       //{ test: /\.ts$/, loader: 'ts-loader!ts-jsx-loader' },
       //{ test: /\.ts$/, loader: 'typescript-simple-loader' },
       //{ test: /\.tsx?$/, loader: 'awesome-typescript-loader?compiler=ntypescript' },
+      //{ test: /\.tsx?$/, loader: 'typescript-simple-loader?compiler=ntypescript' },
       { test: /\.tsx?$/, loader: 'ts-loader?compiler=ntypescript' },
       { test: /\.css$/, loader: "style-loader!css-loader" },
       { test: /\.(svg|woff|woff2|ttf|eot)($|\?)/, loader: "file?name=fonts/[name].[ext]" },
