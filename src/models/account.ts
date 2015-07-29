@@ -2,9 +2,8 @@
 
 import {AccountType} from "./accountType";
 import {Institution} from "./institution";
-import {DbId} from "./dbid";
+import {U} from "./updraftMixin";
 var hash: StringHashFcn = require("string-hash");
-var {Int, Text, Bool, Enum, Ptr} = Updraft.Column;
 
 
 export interface IAccount {
@@ -16,27 +15,24 @@ export interface IAccount {
   visible: boolean;
 }
 
-
+@U.Table({tableName: "accounts"})
 export class Account extends Updraft.Instance<number> implements IAccount {
-  static tableName: string = "accounts";
-  static columns: Updraft.ColumnSet = {
-    dbid: DbId(),
-    institution: Ptr(Institution),
-    name: Text(),
-    type: Enum(AccountType),
-    number: Int(),
-    visible: Bool().Default(true),
-  };
   static all: Updraft.Query<number, Account>;
-  static get(id: number): Promise<Account> { throw new Error("overwritten"); }
-  
+  static get: (id: number) => Promise<Account>;
+
+  @U.DbId()
   public dbid: number;
+  @U.Ptr(Institution)
   public institution: Institution;
+  @U.String()
   public name: string;
+  @U.Enum(AccountType)
   public type: AccountType;
+  @U.Int()
   public number: string;
+  @U.Bool(true)
   public visible: boolean;
-  
+
   assignId() {
     if(!this.dbid) {
       console.assert(!!this.institution);
