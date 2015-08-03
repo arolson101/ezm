@@ -30,6 +30,7 @@
     "react-bootstrap": "^0.23.0",
     "react-fa": "^3.2.0",
     "react-ladda": "^2.0.4",
+    "react-mixin": "^1.7.0",
     "react-router": "^0.13.3",
     "safe-access": "^0.1.0",
     "sortablejs": "git://github.com/rubaxa/sortable",

@@ -6,6 +6,7 @@ import {Alert, Panel, Button, Input, Label, Modal, Row, Col} from "react-bootstr
 import Icon = require("react-fa");
 import access = require("safe-access");
 import LaddaButton = require('react-ladda');
+import reactMixin = require('react-mixin');
 import {Actions} from "../actions";
 import {t} from "../t";
 import {ficache, FI} from "../ficache";
@@ -14,7 +15,6 @@ import {Account, IAccount} from "../models/account";
 import {AccountType, AccountType_t} from "../models/accountType";
 import {Institution} from "../models/institution";
 import {EnumEx} from "../enumEx";
-import {mixin} from "../mixins/applyMixins";
 import {readAccountProfiles} from "../online/readAccountProfiles";
 import {AccountList} from "./accountList";
 import {Select2, Select2ChangeEvent} from "./select2";
@@ -76,7 +76,7 @@ interface State {
 }
 
 
-@mixin(React.addons.LinkedStateMixin)
+@reactMixin.decorate(React.addons.LinkedStateMixin)
 export class AccountDialog extends React.Component<Props, State> {
   linkState: <T>(key: string) => React.ReactLink<T>;
 

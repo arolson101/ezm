@@ -11,7 +11,6 @@ import {Institution} from "../models/institution";
 import {SortableMixin} from "../mixins/sortable";
 import {AccountDialog} from "./accountDialog";
 import {MetisMenu, MetisMenuItem} from "./metisMenu";
-import {mixin} from "../mixins/applyMixins";
 import {Flap} from "../flap";
 import {Home} from "./home";
 

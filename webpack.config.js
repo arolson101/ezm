@@ -37,6 +37,7 @@ module.exports = {
       "react-bootstrap",
       "react-fa",
       "react-ladda",
+      "react-mixin",
 			"react-router",
       "safe-access",
       "select2",

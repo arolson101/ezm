@@ -31,7 +31,6 @@
         "./src/flap.ts",
         "./src/index.ts",
         "./src/main.ts",
-        "./src/mixins/applyMixins.ts",
         "./src/mixins/index.ts",
         "./src/mixins/sortable.ts",
         "./src/models/account.ts",

@@ -1,2 +1,1 @@
-import "./applyMixins";
 import "./sortable";

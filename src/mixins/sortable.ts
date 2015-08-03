@@ -1,8 +1,9 @@
 /// <reference path="../project.d.ts"/>
 
 var SortableJS = require("sortablejs");
+import reactMixin = require('react-mixin');
 
-import {applyMixin} from "./applyMixins";
+// TODO: use the official mixin - https://github.com/RubaXa/Sortable#react
 
 interface SortableProps {
   animation: number;
@@ -17,7 +18,7 @@ var DefaultProps = {
 
 export function SortableMixin(rootRefName: string, props: SortableProps = DefaultProps) {
   return function(target: Function) {
-    applyMixin(target, {
+    reactMixin(target.prototype, {
       _sortable: null,
       _sortableEnabled: true,
 

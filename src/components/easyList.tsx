@@ -3,7 +3,6 @@
 import {Button, Input, ButtonInput, OverlayTrigger, Popover, Table} from "react-bootstrap";
 import Icon = require("react-fa");
 
-import {mixin} from "../mixins/applyMixins";
 import {SortableMixin} from "../mixins/sortable";
 import {DragHandle} from "./dragHandle";
 import {XText, XSelect} from "./xeditable";

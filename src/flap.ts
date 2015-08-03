@@ -1,6 +1,6 @@
 /// <reference path="project.d.ts"/>
 
-import {applyMixin} from "./mixins/applyMixins";
+import reactMixin = require('react-mixin');
 
 
 /**
@@ -12,9 +12,7 @@ export function Flap(target: Function) {
   linkState: <P>(store: Flap.Store<P>, state: string) => void;
   listenTo: <P>(action: Flap.Action<P>, callback: Flap.Listener<P>) => void;
   */
-  return applyMixin(target, {
-    _deleters: new Array<Flap.ActionDeleter>(),
-
+  reactMixin(target.prototype, {
     linkState: function<P>(store: Flap.Store<P>, state: string): void {
       //Note: This method (isMounted) is not available on ES6 class components that extend React.Component. It may be removed entirely in a future version of React.
       // if(this.isMounted()) {
@@ -29,12 +27,15 @@ export function Flap(target: Function) {
 
     listenTo: function<P>(action: Flap.Action<P>, callback: Flap.Listener<P>): void {
       var deleter = action.listen( (params?: P) => callback.call(this, params) );
+      this._deleters = this._deleters || new Array<Flap.ActionDeleter>();
       this._deleters.push(deleter);
     },
 
     componentWillUnmount: function() {
-      this._deleters.forEach((deleter) => deleter());
-      this._deleters = [];
+      if(this._deleters) {
+        this._deleters.forEach((deleter) => deleter());
+        this._deleters = [];
+      }
     }
   });
 }
