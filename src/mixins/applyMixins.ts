@@ -18,13 +18,17 @@ function callboth(key: string, fcn1: Function, fcn2: Function) {
 }
 
 
-function applyMixins(derivedCtor: any, baseCtors: any[]) {
-    baseCtors.forEach(baseCtor => {
-        var src = typeof baseCtor === 'function' ? baseCtor.prototype : baseCtor;
-        Object.getOwnPropertyNames(src).forEach(name => {
-            derivedCtor.prototype[name] = callboth(name, derivedCtor.prototype[name], src[name]);
-        })
-    }); 
+
+export function applyMixin(target: Function, baseCtor: any) {
+  var src = typeof baseCtor === 'function' ? baseCtor.prototype : baseCtor;
+  Object.getOwnPropertyNames(src).forEach(name => {
+    target.prototype[name] = callboth(name, target.prototype[name], src[name]);
+  })
+}
+
+
+export function applyMixins(target: Function, baseCtors: any[]) {
+    baseCtors.forEach(baseCtor => applyMixin(target, baseCtor));
 }
 
 

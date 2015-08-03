@@ -23,10 +23,8 @@ interface State {
 var RadiumNav = Radium(Nav);
 
 
-@mixin(
-  Flap.ReactMixin(),
-  SortableMixin("root")
-)
+@SortableMixin("root")
+@Flap
 @Radium
 export class Sidebar extends React.Component<any, State> {
   static style = {

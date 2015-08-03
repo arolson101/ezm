@@ -49,10 +49,7 @@ export interface Validator {
 	(value): string;
 }
 
-
-@mixin(
-  SortableMixin("root")
-)
+@SortableMixin("root")
 export class EasyList<T> extends React.Component<Props<T>, any> {
 	enableSort: (enabled: boolean) => any;
 
