@@ -1,12 +1,14 @@
 /// <reference path="../project.d.ts"/>
 
 import {Button, ListGroupItem, ModalTrigger, Navbar, Nav, NavItem, DropdownButton} from "react-bootstrap";
+import reactMixin = require('react-mixin');
 import Router = require("react-router");
 var {DefaultRoute, NotFoundRoute, Route, RouteHandler} = Router;
 
 import {t} from "../t";
 import {Sidebar} from "./sidebar";
 import {PageContent} from "./pageContent";
+import {AccountPage} from "./accountPage";
 
 
 class App extends React.Component<any, any> {
@@ -27,6 +29,7 @@ class App extends React.Component<any, any> {
     );
   }
 }
+
 
 
 class Blank extends React.Component<any, any> {
@@ -80,8 +83,9 @@ export function render() {
 
     var routes = (
       <Route handler={App}>
-        <DefaultRoute name="index.html" handler={Blank}/>
-        <Route name="#" handler={Blank}/>
+        <DefaultRoute name="index.html" handler={Home}/>
+        <Route name="#" handler={Home}/>
+        {AccountPage.route()}
         <Route name={Home.href} handler={Home}/>
         <Route name="flot.html" handler={Blank}/>
         <Route name="charts.html" handler={Blank}/>
@@ -103,5 +107,4 @@ export function render() {
     Router.run(routes, Router.HashLocation, (Root: any) => {
       React.render(<Root/>, document.body);
     });
-
 }

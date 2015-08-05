@@ -1,5 +1,6 @@
 import "./accountDialog";
 import "./accountList";
+import "./accountPage";
 import "./app";
 import "./dragHandle";
 import "./easyList";

@@ -46,6 +46,7 @@
         "./src/t.ts",
         "./src/components/accountDialog.tsx",
         "./src/components/accountList.tsx",
+        "./src/components/accountPage.tsx",
         "./src/components/app.tsx",
         "./src/components/dragHandle.tsx",
         "./src/components/easyList.tsx",

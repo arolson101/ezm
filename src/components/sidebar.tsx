@@ -13,6 +13,8 @@ import {AccountDialog} from "./accountDialog";
 import {MetisMenu, MetisMenuItem} from "./metisMenu";
 import {Flap} from "../flap";
 import {Home} from "./home";
+import {AccountPage} from "./accountPage";
+
 
 interface State {
   active?: string;
@@ -93,7 +95,7 @@ export class Sidebar extends React.Component<any, State> {
               <MetisMenuItem title="UWCU" image="http://uwcu.org/favicon.ico">
               {this.state.accounts.map((account) => {
                 return (
-                  <MetisMenuItem href={Home.href} title={<div><i className="fa fa-credit-card"/> {" " + account.name}<span className="pull-right">$1234</span></div>} overlay={<Popover title='Popover bottom'><strong>Holy guacamole!</strong> Check this info.</Popover>}/>
+                  <MetisMenuItem href={AccountPage.link({accountId: account.dbid})} title={<div><i className="fa fa-credit-card"/> {" " + account.name}<span className="pull-right">$1234</span></div>} overlay={<Popover title='Popover bottom'><strong>Holy guacamole!</strong> Check this info.</Popover>}/>
                   /*<AccountDisplay {... selectionProps(account.dbid)} account={account}/>*/
                 );
               })}
