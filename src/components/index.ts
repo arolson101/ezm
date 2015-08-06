@@ -2,6 +2,8 @@ import "./accountDialog";
 import "./accountList";
 import "./accountPage";
 import "./app";
+import "./budgetItemList";
+import "./budgetPage";
 import "./dragHandle";
 import "./easyList";
 import "./home";

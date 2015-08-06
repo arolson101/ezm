@@ -3,6 +3,7 @@
 import {AccountType} from "./accountType";
 import {Institution} from "./institution";
 import {U} from "./updraftMixin";
+import {ItemStore} from "../stores/itemStore";
 var hash: StringHashFcn = require("string-hash");
 
 
@@ -41,3 +42,5 @@ export class Account extends Updraft.Instance<number> implements IAccount {
     }
   }
 }
+
+export var AccountStore = new ItemStore(Account);

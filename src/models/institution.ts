@@ -1,6 +1,7 @@
 /// <reference path="../project.d.ts"/>
 
 import {U} from "./updraftMixin";
+import {ItemStore} from "../stores/itemStore";
 var hash: StringHashFcn = require("string-hash");
 
 
@@ -46,3 +47,5 @@ export class Institution extends Updraft.Instance<number> {
     }
   }
 }
+
+export var institutionStore = new ItemStore(Institution);

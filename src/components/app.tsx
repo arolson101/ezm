@@ -9,6 +9,7 @@ import {t} from "../t";
 import {Sidebar} from "./sidebar";
 import {PageContent} from "./pageContent";
 import {AccountPage} from "./accountPage";
+import {BudgetPage} from "./budgetPage";
 
 
 class App extends React.Component<any, any> {
@@ -86,6 +87,7 @@ export function render() {
         <DefaultRoute name="index.html" handler={Home}/>
         <Route name="#" handler={Home}/>
         {AccountPage.route()}
+        {BudgetPage.route()}
         <Route name={Home.href} handler={Home}/>
         <Route name="flot.html" handler={Blank}/>
         <Route name="charts.html" handler={Blank}/>

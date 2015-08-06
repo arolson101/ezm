@@ -394,8 +394,15 @@ export class AccountDialog extends React.Component<Props, State> {
       institution[key] = this.state[key];
     });
 
-    var accounts = this.state.accounts.map(account => new Account(account));
+    institution.assignId();
 
-    Actions.saveAccount({institution, accounts});
+    var accounts = this.state.accounts.map((account) => {
+      var ret = new Account(account);
+      ret.institution = institution;
+      ret.assignId();
+      return ret;
+    });
+
+    Actions.save([institution, ... accounts]);
   }
 }

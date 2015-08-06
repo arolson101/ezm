@@ -1,2 +1,2 @@
-import "./accountStore";
+import "./itemStore";
 import "./persistentStore";

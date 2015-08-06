@@ -5,8 +5,7 @@ import Icon = require("react-fa");
 var Radium: any = require("radium");
 
 import {t} from "../t";
-import {accountStore} from "../stores/accountStore";
-import {Account} from "../models/account";
+import {Account, AccountStore} from "../models/account";
 import {Institution} from "../models/institution";
 import {SortableMixin} from "../mixins/sortable";
 import {AccountDialog} from "./accountDialog";
@@ -14,6 +13,7 @@ import {MetisMenu, MetisMenuItem} from "./metisMenu";
 import {Flap} from "../flap";
 import {Home} from "./home";
 import {AccountPage} from "./accountPage";
+import {BudgetPage} from "./budgetPage";
 
 
 interface State {
@@ -46,7 +46,7 @@ export class Sidebar extends React.Component<any, State> {
     this.state = {
       active: "home",
     };
-    this.linkState(accountStore, "accounts");
+    this.linkState(AccountStore, "accounts");
   }
 
   render() {
@@ -101,7 +101,7 @@ export class Sidebar extends React.Component<any, State> {
               })}
               </MetisMenuItem>
 
-              <MetisMenuItem title={t("sidebar.budget")} icon="area-chart" href="flot.html"/>
+              <MetisMenuItem title={t("sidebar.budget")} icon="area-chart" href={BudgetPage.link()}/>
               <MetisMenuItem title={t("sidebar.calendar")} icon="calendar"/>
               <MetisMenuItem title="Multi-Level Dropdown" icon="sitemap">
                 <MetisMenuItem title="Second Level Item"/>
