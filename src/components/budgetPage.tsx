@@ -41,7 +41,21 @@ export class BudgetPage extends React.Component<any, State> {
 					</div>
 				</div>
 
-        <BudgetItemList data={this.state.items}/>
+        <div className="row">
+					<div className="col-lg-12">
+            <BudgetItemList
+              data={this.state.items}
+              delete={(index) => {
+                this.state.items.splice(index, 1);
+                this.forceUpdate();
+              }}
+              add={(acct: BudgetItem) => {
+                this.state.items.push(acct);
+                this.forceUpdate();
+              }}
+            />
+					</div>
+				</div>
 			</div>
 		);
   }
