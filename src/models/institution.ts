@@ -48,4 +48,4 @@ export class Institution extends Updraft.Instance<number> {
   }
 }
 
-export var institutionStore = new ItemStore(Institution);
+export var InstitutionStore = new ItemStore(Institution);

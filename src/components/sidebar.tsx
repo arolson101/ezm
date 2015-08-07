@@ -6,7 +6,7 @@ var Radium: any = require("radium");
 
 import {t} from "../t";
 import {Account, AccountStore} from "../models/account";
-import {Institution} from "../models/institution";
+import {Institution, InstitutionStore} from "../models/institution";
 import {SortableMixin} from "../mixins/sortable";
 import {AccountDialog} from "./accountDialog";
 import {MetisMenu, MetisMenuItem} from "./metisMenu";
@@ -19,6 +19,7 @@ import {BudgetPage} from "./budgetPage";
 interface State {
   active?: string;
   accounts?: Account[];
+  institutions?: Institution[];
 }
 
 var RadiumNav = Radium(Nav);
@@ -38,6 +39,7 @@ export class Sidebar extends React.Component<any, State> {
     }
   }
 
+  // Flap mixin
   linkState: <P>(store: Flap.Store<P>, state: string) => void;
   listenTo: <P>(action: Flap.Action<P>, callback: Flap.Listener<P>) => void;
 
@@ -47,6 +49,7 @@ export class Sidebar extends React.Component<any, State> {
       active: "home",
     };
     this.linkState(AccountStore, "accounts");
+    this.linkState(InstitutionStore, "institutions");
   }
 
   render() {
@@ -60,59 +63,37 @@ export class Sidebar extends React.Component<any, State> {
       };
     };
 
-
-/*
-    var addButtonTooltip = (
-      <Tooltip>{t("sidebar.addAccountTooltip")}</Tooltip>
-    );
-*/
-
-    // return (
-    //   //React.createElement(Navbar, {brand: "UWCU"},
-    //     React.createElement(Nav, {className: "bs-docs-sidebar"},
-    //       React.createElement(NavItem, selectionProps("home"), React.createElement(Icon, {name: "home"}), " ", t("sidebar.home")),
-    //       React.createElement(Nav, null,
-    //         React.createElement(NavItem, null, "UWCU"),
-    //         React.createElement(Nav, null,
-    //           React.createElement(NavItem, null, "child1" ),
-    //           React.createElement(NavItem, null, "child2" )
-    //         )
-    //       )
-    //         // , {title: "UWCU", navItem: true}, accounts),
-
-    //       // React.createElement(NavItem, selectionProps("budget"), React.createElement(Icon, {name: "area-chart"}), " ", t("sidebar.budget")),
-    //       // React.createElement(NavItem, selectionProps("calendar"), React.createElement(Icon, {name: "calendar"}), " ", t("sidebar.calendar"))
-    //     )
-    //   //)
-    // );
-
     return (
       <RadiumNav role="navigation" {... this.props} style={Sidebar.style}>
         <div style={{paddingRight: 0, paddingLeft: 0}}>
           <MetisMenu ref="root">
               <MetisMenuItem title={t("sidebar.home")} href={Home.href} icon="home"/>
+              <MetisMenuItem title={t("sidebar.budget")} icon="area-chart" href={BudgetPage.link()}/>
 
-              <MetisMenuItem title="UWCU" image="http://uwcu.org/favicon.ico">
-              {this.state.accounts.map((account) => {
+              {this.state.institutions.map(institution => {
                 return (
-                  <MetisMenuItem href={AccountPage.link({accountId: account.dbid})} title={<div><i className="fa fa-credit-card"/> {" " + account.name}<span className="pull-right">$1234</span></div>} overlay={<Popover title='Popover bottom'><strong>Holy guacamole!</strong> Check this info.</Popover>}/>
-                  /*<AccountDisplay {... selectionProps(account.dbid)} account={account}/>*/
+                  <MetisMenuItem key={institution.dbid} title={institution.name} icon="university">
+                  {this.state.accounts.filter(account => account.institution.dbid == institution.dbid)
+                    .map(account =>
+                      <MetisMenuItem
+                        key={account.dbid}
+                        href={AccountPage.link({accountId: account.dbid})}
+                        title={
+                          <div>
+                            <i className="fa fa-credit-card"/>
+                            {" " + account.name}
+                            <span className="pull-right">$1234</span>
+                          </div>}
+                        overlay={<Popover title='Popover bottom'><strong>Holy guacamole!</strong> Check this info.</Popover>}
+                      />
+                    )
+                  }
+                  </MetisMenuItem>
                 );
               })}
-              </MetisMenuItem>
 
-              <MetisMenuItem title={t("sidebar.budget")} icon="area-chart" href={BudgetPage.link()}/>
               <MetisMenuItem title={t("sidebar.calendar")} icon="calendar"/>
-              <MetisMenuItem title="Multi-Level Dropdown" icon="sitemap">
-                <MetisMenuItem title="Second Level Item"/>
-                <MetisMenuItem title="Second Level Item"/>
-                <MetisMenuItem title="Third Level">
-                  <MetisMenuItem title="Third Level Item"/>
-                  <MetisMenuItem title="Third Level Item"/>
-                  <MetisMenuItem title="Third Level Item"/>
-                  <MetisMenuItem title="Third Level Item"/>
-                </MetisMenuItem>
-              </MetisMenuItem>
+
               <span className="pull-right" style={{marginTop: 5}}>
                 <ModalTrigger modal={<AccountDialog/>}>
                   <Button bsStyle="link" title={t("sidebar.addAccountTooltip")}>
@@ -123,22 +104,6 @@ export class Sidebar extends React.Component<any, State> {
           </MetisMenu>
         </div>
       </RadiumNav>
-      /*<div>
-        <ListGroupItem ref="root">
-          <ListGroupItem {... selectionProps("home")}><Icon name="home"/>{" " + t("sidebar.home")}</ListGroupItem>
-          {accounts}
-          <ListGroupItem {... selectionProps("budget")}><Icon name="area-chart"/>{" " + t("sidebar.budget")}</ListGroupItem>
-          <ListGroupItem {... selectionProps("calendar")}><Icon name="calendar"/>{" " + t("sidebar.calendar")}</ListGroupItem>
-        </ListGroupItem>
-
-        <span className="pull-right" style={{marginTop: 5}}>
-          <ModalTrigger modal={<AccountDialog/>}>
-            <Button>
-              <Icon name="plus"/>
-            </Button>
-          </ModalTrigger>
-        </span>
-      </div>*/
     );
   }
 

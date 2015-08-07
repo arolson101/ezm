@@ -5,16 +5,21 @@ import {Flap} from "../flap";
 import {persistentStore} from "./persistentStore";
 
 
-interface PartialClassTemplate<K> extends Function {
-  all?: Updraft.Query<K, Updraft.Instance<K>>;
+interface Item extends Updraft.Instance<number> {
+  dbid: number;
+}
+
+interface Template<I extends Item> extends Function {
+  all?: Updraft.Query<number, Updraft.Instance<number>>;
+  new(): I;
 }
 
 
-export class ItemStore<T extends Updraft.Instance<number>> extends Flap.Store<T[]> {
-  private type: PartialClassTemplate<number>;
-  private items: T[];
+export class ItemStore<I extends Item> extends Flap.Store<I[]> {
+  private type: Template<I>;
+  private items: I[];
 
-  constructor(type: PartialClassTemplate<number>) {
+  constructor(type: Template<I>) {
     super();
     this.type = type;
     this.items = [];
@@ -28,9 +33,15 @@ export class ItemStore<T extends Updraft.Instance<number>> extends Flap.Store<T[
     return this.items;
   }
 
+  get(dbid: number): I {
+    var result: I = _.find(this.items, item => item.dbid == dbid);
+    console.assert(result != null);
+    return result;
+  }
+
   load() {
     return this.type.all.order("dbid", true).get()
-    .then((results: T[]) => {
+    .then((results: I[]) => {
       this.items = results;
     });
     // TODO: interface to sort, apply sort order upon load

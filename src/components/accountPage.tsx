@@ -1,6 +1,8 @@
 /// <reference path="../project.d.ts"/>
 
 import {Route, Link} from "react-router";
+import {Account, AccountStore} from "../models/account";
+import {InstitutionStore} from "../models/institution";
 
 interface Params {
   accountId: number;
@@ -27,6 +29,9 @@ export class AccountPage extends React.Component<Props, any> {
   }
 
   render() {
-    return <h1>Account {this.props.params.accountId}</h1>;
+    var account = AccountStore.get(this.props.params.accountId);
+    var institution = InstitutionStore.get(account.institution.dbid);
+
+    return <h1>{institution.name + " / " + account.name}</h1>;
   }
 }
