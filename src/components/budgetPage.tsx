@@ -1,6 +1,7 @@
 /// <reference path="../project.d.ts"/>
 
 import {Route, Link} from "react-router";
+import {Actions} from "../actions";
 import {Flap} from "../flap";
 import {BudgetItem, BudgetItemStore} from "../models/budgetItem";
 import {BudgetItemList} from "./budgetItemList";
@@ -45,18 +46,30 @@ export class BudgetPage extends React.Component<any, State> {
 					<div className="col-lg-12">
             <BudgetItemList
               data={this.state.items}
-              delete={(index) => {
-                this.state.items.splice(index, 1);
-                this.forceUpdate();
-              }}
-              add={(acct: BudgetItem) => {
-                this.state.items.push(acct);
-                this.forceUpdate();
-              }}
+              add={this.onAdd}
+              save={this.onSave}
+              delete={this.onDelete}
             />
 					</div>
 				</div>
 			</div>
 		);
+  }
+
+  onAdd = (acct: BudgetItem) => {
+    console.assert(!(acct instanceof BudgetItem));
+    acct = new BudgetItem(acct);
+    acct.dbid = Date.now();
+
+    Actions.save([acct]);
+  }
+
+  onSave = (acct: BudgetItem) => {
+    console.assert(acct instanceof BudgetItem);
+    Actions.save([acct]);
+  }
+
+  onDelete = (index: number, item: BudgetItem) => {
+    Actions.delete([item]);
   }
 }

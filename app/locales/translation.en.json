@@ -66,6 +66,7 @@
     "successGettingAccounts": "Success",
     "successGettingAccountsMessage": "Found __numAccounts__ accounts",
     "toggleVisTooltip": "Show or hide account from sidebar",
+    "accounts": "Accounts",
     "addAccount": "Add",
     "add": {
       "typePlaceholder": "Type",

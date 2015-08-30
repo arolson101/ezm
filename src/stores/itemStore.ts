@@ -24,7 +24,8 @@ export class ItemStore<I extends Item> extends Flap.Store<I[]> {
     this.type = type;
     this.items = [];
     this.listenTo(Actions.open, this.onOpen);
-    this.listenTo(Actions.saved, this.onSaved);
+    this.listenTo(Actions.saved, this.onSavedOrDeleted);
+    this.listenTo(Actions.deleted, this.onSavedOrDeleted);
 
     persistentStore.updraftClasses.push(type);
   }
@@ -51,7 +52,7 @@ export class ItemStore<I extends Item> extends Flap.Store<I[]> {
     return this.load();
   }
 
-  onSaved(items: Updraft.Instance<any>[]): Promise<any> {
+  onSavedOrDeleted(items: Updraft.Instance<any>[]): Promise<any> {
     if(_.any(items, item => item instanceof this.type)) {
       return this.load()
       .then(() => this.trigger(this.items));

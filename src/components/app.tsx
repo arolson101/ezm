@@ -8,8 +8,6 @@ var {DefaultRoute, NotFoundRoute, Route, RouteHandler} = Router;
 import {t} from "../t";
 import {Sidebar} from "./sidebar";
 import {PageContent} from "./pageContent";
-import {AccountPage} from "./accountPage";
-import {BudgetPage} from "./budgetPage";
 
 
 class App extends React.Component<any, any> {
@@ -80,11 +78,13 @@ class NotFound extends React.Component<any, any> {
 export function render() {
 
     var {Home} = require("./home");
+    var {AccountPage} = require("./accountPage");
+    var {BudgetPage} = require("./budgetPage");
 
 
     var routes = (
       <Route handler={App}>
-        <DefaultRoute name="index.html" handler={Home}/>
+        <DefaultRoute name="index.html" handler={BudgetPage}/>
         <Route name="#" handler={Home}/>
         {AccountPage.route()}
         {BudgetPage.route()}

@@ -51,6 +51,7 @@
         "./src/components/app.tsx",
         "./src/components/budgetItemList.tsx",
         "./src/components/budgetPage.tsx",
+        "./src/components/datepicker.tsx",
         "./src/components/dragHandle.tsx",
         "./src/components/easyList.tsx",
         "./src/components/home.tsx",

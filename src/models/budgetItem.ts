@@ -13,7 +13,13 @@ export class BudgetItem extends Updraft.Instance<number> {
   public dbid: number;
 
   @U.String()
-  public name: string;
+  public payee: string;
+
+  @U.Date()
+  public next: Date;
+
+  @U.String()
+  public rrule: string;
 }
 
 

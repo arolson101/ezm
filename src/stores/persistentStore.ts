@@ -17,6 +17,7 @@ class PersistentStore {
 	constructor() {
 		this.listenTo(Actions.startup, this.onStartup);
 		this.listenTo(Actions.save, this.onSave);
+		this.listenTo(Actions.delete, this.onDelete);
 	}
 
 	onStartup() {
@@ -38,6 +39,11 @@ class PersistentStore {
 		// TODO: see if there's a way to trigger the completed action on this instance
 		return this.updraftStore.save(...params)
 		.then(() => Actions.saved(params));
+	}
+
+	onDelete(params: Updraft.Instance<any>[]) {
+		return this.updraftStore.delete(...params)
+		.then(() => Actions.deleted(params));
 	}
 }
 

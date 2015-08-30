@@ -6,6 +6,7 @@ import Icon = require("react-fa");
 import {SortableMixin} from "../mixins/sortable";
 import {DragHandle} from "./dragHandle";
 import {XText, XSelect} from "./xeditable";
+import {DatePicker} from "./datepicker";
 import * as React from "react/addons";
 import {t} from "../t";
 
@@ -15,6 +16,7 @@ export enum InputType {
 	None,
 	Text,
 	Select,
+	Date,
 }
 
 
@@ -23,9 +25,10 @@ export interface Props<T> extends React.Props<any>
 	data: T[];
 
 	// events
-	canAdd?: (t: T) => string;
-	add?: (t: T) => any;
-	delete?: (index: number) => any;
+	canAdd?: (item: T) => string;
+	add?: (item: T) => any;
+	save?: (item: T) => any;
+	delete?: (index: number, item: T) => any;
 }
 
 
@@ -77,16 +80,17 @@ export class EasyList<T> extends React.Component<Props<T>, any> {
 	}
 
 	render() {
-		// if(this.onAdd) {
-		// 	return React.DOM.form({
-		// 			ref: "_form",
-		// 			onSubmit: (e) => this.onAdd(e)
-		// 		},
-		// 		this.renderTable()
-		// 	);
-		// } else {
+		if(this.onAdd) {
+			return (
+				<form
+					onSubmit={(e) => this.onAdd(e)}
+				>
+					{this.renderTable()}
+				</form>
+			);
+		} else {
 			return this.renderTable();
-		// }
+		}
 	}
 
 	renderTable(): React.ReactElement<any> {
@@ -122,7 +126,7 @@ export class EasyList<T> extends React.Component<Props<T>, any> {
 
 			{this.props.delete
 				? <td key="delete">
-					<Button bsStyle="danger" onClick={() => this.props.delete(index)}>
+					<Button bsStyle="danger" onClick={() => this.props.delete(index, elt)}>
 						<Icon name="minus"/>
 					</Button>
 				</td>
@@ -150,6 +154,9 @@ export class EasyList<T> extends React.Component<Props<T>, any> {
 					mode="inline"
 					onSave={(e, params) => {
 						elt[col.key] = params.newValue;
+						if(this.props.save) {
+							this.props.save(elt);
+						}
 						this.forceUpdate();
 					}}
 				>
@@ -163,10 +170,18 @@ export class EasyList<T> extends React.Component<Props<T>, any> {
 					value={value}
 					onSave={(e, params) => {
 						elt[col.key] = checkInt(params.newValue);
+						if(this.props.save) {
+							this.props.save(elt);
+						}
 						this.forceUpdate();
 					}}
 				/>;
-			break;
+
+			case InputType.Date:
+				return <XSelect
+					mode="inline"
+					options={{pickTime: true, pickDate: true, showToday: true}}
+				/>;
 		}
 	}
 
@@ -205,8 +220,8 @@ export class EasyList<T> extends React.Component<Props<T>, any> {
 					)}
 					<td key="add">
 						<Button
-								/*type="submit",*/
-								onClick={(e) => this.onAdd(e)}
+								type="submit"
+								/*onClick={(e) => this.onAdd(e)}*/
 							>
 							<Icon name="plus"/>
 						</Button>
@@ -232,8 +247,8 @@ export class EasyList<T> extends React.Component<Props<T>, any> {
 				help={this.state[col.key + "_reason"]}
 				placeholder={col.placeholder}
 				value={this.state[col.key + "_value"]}
-				onChange={(e) => {
-					this.setState({ [col.key + "_value"]: e.target.value });
+				onChange={(e: React.SyntheticEvent) => {
+					this.setState({ [col.key + "_value"]: (e.target as any).value });
 				}}
 			/>;
 
@@ -244,8 +259,8 @@ export class EasyList<T> extends React.Component<Props<T>, any> {
 					help={this.state[col.key + "_reason"]}
 					placeholder={col.placeholder}
 					value={this.state[col.key + "_value"]}
-					onChange={(e) => {
-						this.setState({ [col.key + "_value"]: checkInt(e.target.value) });
+					onChange={(e: React.SyntheticEvent) => {
+						this.setState({ [col.key + "_value"]: checkInt((e.target as any).value) });
 					}}
 				>
 					<optgroup label={col.placeholder}>
@@ -255,6 +270,19 @@ export class EasyList<T> extends React.Component<Props<T>, any> {
 						)}
 					</optgroup>
 				</Input>;
+
+
+			case InputType.Date:
+				return <DatePicker /*Input*/
+					type="date"
+					bsStyle={bsStyle}
+					help={this.state[col.key + "_reason"]}
+					placeholder={col.placeholder}
+					value={this.state[col.key + "_value"]}
+					onChange={(e: React.SyntheticEvent) => {
+						this.setState({ [col.key + "_value"]: (e.target as any).value });
+					}}
+				/>;
 		}
 	}
 

@@ -180,7 +180,7 @@ export class AccountDialog extends React.Component<Props, State> {
 
           <hr/>
 
-          <Input label="--Accounts">
+          <Input label={t("accountDialog.accounts")}>
             {this.renderAccounts()}
           </Input>
 

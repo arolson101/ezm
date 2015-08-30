@@ -16,6 +16,12 @@ export var Actions = {
 	/** persist items to storage */
 	save: Flap.createAction<Updraft.Instance<any>[]>(),
 
+	/** remove items from storage */
+	delete: Flap.createAction<Updraft.Instance<any>[]>(),
+
 	/* something was saved to db */
 	saved: Flap.createAction<Updraft.Instance<any>[]>(),
+
+	/* something was removed from db */
+	deleted: Flap.createAction<Updraft.Instance<any>[]>(),
 };

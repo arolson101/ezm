@@ -12,3 +12,5 @@
 /// <reference path="select2/select2.d.ts" />
 /// <reference path="react-router/react-router.d.ts" />
 /// <reference path="react-mixin/react-mixin.d.ts" />
+/// <reference path="moment/moment.d.ts" />
+/// <reference path="moment/moment-node.d.ts" />
